@@ -4,7 +4,7 @@ author: Richard Koranteng
 date: 2025-06-24 07:00:00 -0600
 description: Self-service CI/CD pipeline for Oracle database deployments with Liquibase & Azure DevOps
 categories: [Automation, DevOps]
-tags: [Liquibase, Oracle, ADO, CI/CD]
+tags: [Liquibase, Oracle, ADO]
 img_path: /assets/screenshots/2025-06-24-database-ci-cd-pipeline
 image:
   path: ado-liquibase-pipeline.png

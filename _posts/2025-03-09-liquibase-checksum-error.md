@@ -3,7 +3,7 @@ title: 'Liquibase Checksum Error'
 author: Richard Koranteng
 date: 2025-03-09 21:23:00 -0600
 description: Liquibase Checksum Error
-categories: [Database, CI/CD]
+categories: [Database, Release]
 tags: [Liquibase]
 img_path: /assets/screenshots/2025-03-09-liquibase-checksum-error
 image:
