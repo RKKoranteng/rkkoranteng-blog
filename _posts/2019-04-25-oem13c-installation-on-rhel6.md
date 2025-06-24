@@ -3,8 +3,8 @@ title: 'OEM 13c on RHEL6'
 author: Richard Koranteng
 date: 2019-04-25 7:00:00 -0600
 description: Oracle Enterprise Manager installation on Red Hat Enterprise Linux 6
-categories: [Oracle,OEM]
-tags: [Oracle,OEM,Monitoring]
+categories: [Database,Monitoring]
+tags: [Oracle,OEM]
 img_path: /assets/screenshots/2019-04-25-oem13c-installation-on-rhel6
 image:
   path: 2019-04-25-oem13c-installation-on-rhel6.png

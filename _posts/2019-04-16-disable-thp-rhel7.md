@@ -3,8 +3,8 @@ title: 'Disable THP on RHEL7'
 author: Richard Koranteng
 date: 2019-04-16 7:00:00 -0600
 description: Disable Transparent Huge Pages on Red Hat Enterprise Linux 7
-categories: [Oracle,Database]
-tags: [Oracle,Database,HugePages,RHEL]
+categories: [Database, Configuration]
+tags: [Oracle,HugePages,RHEL]
 img_path: /assets/screenshots/2019-04-16-disable-thp-rhel7
 image:
   path: 2019-04-16-disable-thp-rhel7.png

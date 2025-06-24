@@ -3,8 +3,8 @@ title: 'Simple Ansible Playbook to Create RDS Instance'
 author: Richard Koranteng
 date: 2021-09-27 7:00:00 -0600
 description: Simple Ansible Playbook to Create RDS Instance
-categories: [Automation,Ansible]
-tags: [Automation,Ansible,IaC,AWS,RDS]
+categories: [Automation,IaC]
+tags: [Ansible,AWS,RDS]
 img_path: /assets/screenshots/2021-09-27-ansible-for-rds
 image:
   path: 2021-09-27-ansible-for-rds.png

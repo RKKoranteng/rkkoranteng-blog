@@ -3,8 +3,8 @@ title: 'How-to: Flashback Data Gaurd Database'
 author: Richard Koranteng
 date: 2019-06-10 7:00:00 -0600
 description: Flashback a Data Gaurd database
-categories: [Oracle,Database]
-tags: [Oracle,Database,Flashback,DG Broker]
+categories: [Database, HA/DR]
+tags: [Oracle, Flashback]
 img_path: /assets/screenshots/2019-06-10-flashback-datagaurd-db
 image:
   path: 2019-06-10-flashback-datagaurd-db.png

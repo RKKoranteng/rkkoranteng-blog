@@ -3,8 +3,8 @@ title: 'Oracle 18c GI & RDMS on RHEL7'
 author: Richard Koranteng
 date: 2019-03-24 7:00:00 -0600
 description: Silent installation of Oracle 18c Grid Infrastructure and Database on Red Hat Enterprise Linux 7
-categories: [Oracle,Database]
-tags: [Oracle,Database,Grid Infrastructure,ASM]
+categories: [Database, Configuration]
+tags: [Oracle,GI,ASM]
 img_path: /assets/screenshots/2019-03-24-oracle-rdbms-18c-silent-installation-on-rhel-7
 image:
   path: 2019-03-24-oracle-rdbms-18c-silent-installation-on-rhel-7.png

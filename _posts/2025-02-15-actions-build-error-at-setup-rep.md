@@ -3,7 +3,7 @@ title: 'Build Error at Setup Ruby Atage of Build and Deploy on Actions'
 author: Richard Koranteng
 date: 2025-02-15 15:00:00 -0600
 description: Build Error at Setup Ruby Atage of Build and Deploy on Action
-categories: [GitHub]
+categories: [GitHub, Actions]
 tags: [GitHub, Actions, Ruby]
 img_path: /assets/screenshots/2025-02-15-actions-build-error
 image:

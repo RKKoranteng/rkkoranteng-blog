@@ -3,7 +3,7 @@ title: 'GitHub Actions Resource Not Accessible By Integration'
 author: Richard Koranteng
 date: 2024-02-22 7:00:00 -0600
 description: GitHub Actions Resource Not Accessible By Integration
-categories: [GitHub]
+categories: [GitHub, Actions]
 tags: [GitHub, Actions]
 img_path: /assets/screenshots/2024-02-22-github-action-resource-not-assessiable
 image:

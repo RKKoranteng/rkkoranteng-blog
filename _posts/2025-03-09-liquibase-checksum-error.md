@@ -3,8 +3,8 @@ title: 'Liquibase Checksum Error'
 author: Richard Koranteng
 date: 2025-03-09 21:23:00 -0600
 description: Liquibase Checksum Error
-categories: [Automation]
-tags: [Liquibase, CI/CD]
+categories: [Database, CI/CD]
+tags: [Liquibase]
 img_path: /assets/screenshots/2025-03-09-liquibase-checksum-error
 image:
   path: liquibase-checksum-error.png
@@ -65,12 +65,11 @@ liquibase --url=jdbc:sqlserver://testsrv:1433;databaseName=testdb;encrypt=true;t
 
 I eventually ended up manually updating the `DATABASECHANGELOG` table. I'm confident about the change so I was ok with updating the checksum in the DATABASECHANGELOG table. 
 
-> Also, you can try manually updating the `DATABASECHANGELOG` table. 
->
-> Example:
-> ```sql
-> UPDATE DATABASECHANGELOG 
-> SET MD5SUM = 'new-checksum' 
-> WHERE ID = 'your_changeset_id' AND AUTHOR = 'your_author';
-> ```
-{: .prompt-tip }
+Also, you can try manually updating the `DATABASECHANGELOG` table. 
+
+Example
+```sql
+UPDATE DATABASECHANGELOG 
+SET MD5SUM = 'new-checksum' 
+WHERE ID = 'your_changeset_id' AND AUTHOR = 'your_author';
+```
