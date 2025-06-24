@@ -8,7 +8,7 @@ Hello world! My name is Richard. I'm a Sys Admin, turned Web Dev, turned DBA.
 
 I'm always building IT. Here's the 411 on me:
 
-* ➡️ Principal Consultat @ [rkkoranteng.com](https://rkkoranteng.com) 😏
+* ➡️ Principal Consultant @ [rkkoranteng.com](https://rkkoranteng.com) 😏
 * ➡️ I enjoy modernizing database workloads 
 * ➡️ I'm a DBA advocate and share my code on [github.com/RKKoranteng](https://github.com/rkkoranteng) 
 * ➡️ When I'm not working, I like watching soccer with my family
