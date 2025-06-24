@@ -16,7 +16,7 @@ timezone: America/New_York
 
 title: rk.blog # the main title
 
-tagline: A DBE Blog  # it will display as the sub-title
+tagline: Database Engineering Blog  # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
   Blogging about databases, automation, cloud and my continuous improvement DevOps journey.
