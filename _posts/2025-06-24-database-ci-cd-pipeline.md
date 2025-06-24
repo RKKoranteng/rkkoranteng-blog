@@ -32,6 +32,7 @@ Here's a better way - something secure, automated, and developer-friendly. I dev
 - Promotes changes safely to production
 - Requires no DBA intervention for routine changes
 
+Continous Integration pipeline
 ```text
 📦 CI Pipeline (validate code and package)
 │
@@ -52,6 +53,7 @@ Here's a better way - something secure, automated, and developer-friendly. I dev
     └── liquibase.properties (optional)
 ```
 
+Continuos Deploymeny pipeline
 ```text
 🚀 CD Pipeline (test code ande promote to prod)
 │
@@ -74,7 +76,7 @@ Implementing this solution allows:
 - The business can respond faster to customer needs and market changes
 
 ## Summary
-By automating database deployments through a self-service CI/CD pipeline, developers are empowered to safely deliver changes without waiting on manual DBA intervention. This accelerates release cycles, reduces downtime, and improves team productivity. leading to faster time-to-market and a stronger return on investment (ROI) for every development effort.
+By automating database deployments through a self-service CI/CD pipeline, developers are empowered to safely deliver changes without waiting on manual DBA intervention. This accelerates release cycles, reduces downtime, and improves team productivity. leading to faster time-to-market.
 
 > Faster time-to-market directly aligns with a stronger return on investment (ROI) for every development effort
 {: .prompt-tip }
