@@ -14,9 +14,9 @@ timezone: America/New_York
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: r.K # the main title
+title: rk.blog # the main title
 
-tagline: My Stack is Full  # it will display as the sub-title
+tagline: A DBE Blog  # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
   Blogging about databases, automation, cloud and my continuous improvement DevOps journey.
