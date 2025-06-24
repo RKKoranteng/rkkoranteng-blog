@@ -2,25 +2,25 @@
 title: 'Liquibase Checksum Error'
 author: Richard Koranteng
 date: 2025-03-09 21:23:00 -0600
-description: liquibase validation failed with checksum error
-categories: [CI/CD,Liquibase]
-tags: [error]
+description: Liquibase Checksum Error
+categories: [Automation]
+tags: [Liquibase, CI/CD]
 img_path: /assets/screenshots/2025-03-09-liquibase-checksum-error
 image:
-  path: 2025-03-09-liquibase-checksum-error.png
+  path: liquibase-checksum-error.png
   width: 100%
   height: 100%
-  alt: liquibase validation failed
+  alt: Liquibase validation failed with checksum error
 ---
 
 ## Overview
-I've been hitting this Liquibase checksum validation error more frequently in a specific daatabase. Here's what I found out. Liquibase checksum validation errors occur when Liquibase detects that a previously applied changeset has been modified. Liquibase calculates a checksum (a hash) for each changeset and stores it in the DATABASECHANGELOG table. 
+I've been hitting this Liquibase checksum validation error more frequently in a specific database. Here's what I found out. Liquibase checksum validation errors occur when Liquibase detects that a previously applied changeset has been modified. Liquibase calculates a checksum (a hash) for each changeset and stores it in the DATABASECHANGELOG table. 
 
-When running updates, it recalculates the checksum and compares it to the stored value. If they don’t match, Liquibase throws a checksum validation error to prevent accidental or unintended changes. 
+When running `liquibase update`, it recalculates the checksum and compares it to the stored value. If they don’t match, Liquibase throws a checksum validation error to prevent accidental or unintended changes. 
 
 Here's a snippet of the error.
 
-```
+```text
 ####################################################
 ##   _     _             _ _                      ##
 ##  | |   (_)           (_) |                     ##
@@ -52,29 +52,25 @@ liquibase.exception.CommandExecutionException: liquibase.exception.LiquibaseExce
 
 ## Common Causes of Checksum Validation Error
 
-#### 1. Manual Changes to the Changeset
-If you modify an already executed changeset (e.g., adding/removing columns, changing SQL statements), the checksum changes.
-
-#### 2. Changes in Formatting or Whitespace
-Some formatting changes, even if they don’t affect SQL execution, can alter the checksum.
-
-#### 3. Environment Differences
-Differences in line endings (Windows vs. Linux) or character encodings can sometimes lead to checksum mismatches.
-
-#### 4. Upgrading Liquibase Versions
-Some versions of Liquibase may generate different checksums for the same changeset due to internal updates.
+- **Manual Changes to the Changeset** : If you modify an already executed changeset (e.g., adding/removing columns, changing SQL statements), the checksum changes.
+- **Changes in Formatting or Whitespace** : Some formatting changes, even if they don’t affect SQL execution, can alter the checksum.
+- **Environment Differences** : Differences in line endings (Windows vs. Linux) or character encodings can sometimes lead to checksum mismatches.
+- **Upgrading Liquibase Versions** : Some versions of Liquibase may generate different checksums for the same changeset due to internal updates.
 
 ## Solution
-I initially tried to clear the checksum by running the following command, but I hit the error again after a few weeks.
+I cleared the checksum by running the following command, but I hit the error again after a few weeks.
 ```sh
-liquibase --url=jdbc:sqlserver://testsrv:1433;databaseName=testdb;encrypt=true;trustServerCertificate=true; --username=liquibase --password=**** clear-checksums
+liquibase --url=jdbc:sqlserver://testsrv:1433;databaseName=testdb;encrypt=true;trustServerCertificate=true; --username=oopss --password='cant.touch.this' clear-checksums
 ```
 
 I eventually ended up manually updating the `DATABASECHANGELOG` table. I'm confident about the change so I was ok with updating the checksum in the DATABASECHANGELOG table. 
 
-Example:
-```sql
-UPDATE DATABASECHANGELOG 
-SET MD5SUM = 'new-checksum' 
-WHERE ID = 'your_changeset_id' AND AUTHOR = 'your_author';
-```
+> Also, you can try manually updating the `DATABASECHANGELOG` table. 
+>
+> Example:
+> ```sql
+> UPDATE DATABASECHANGELOG 
+> SET MD5SUM = 'new-checksum' 
+> WHERE ID = 'your_changeset_id' AND AUTHOR = 'your_author';
+> ```
+{: .prompt-tip }
