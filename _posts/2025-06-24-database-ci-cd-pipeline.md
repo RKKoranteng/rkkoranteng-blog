@@ -10,7 +10,7 @@ image:
   path: ado-liquibase-pipeline.png
   width: 100%
   height: 100%
-  alt: https://rkkoranteng.com
+  alt: Azure DevOps Continous Deployment pipeline for database releases
 ---
 
 ## Problem
