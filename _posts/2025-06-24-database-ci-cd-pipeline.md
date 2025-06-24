@@ -24,7 +24,7 @@ This gap leads to:
 - A disconnect between dev and ops teams
 
 ## Solution
-There's a better way - something secure, automated, and developer-friendly. Here's a Azure DevOps CI/CD pipeline that:
+There's a better way - something secure, automated, and developer-friendly. <a href="https://github.com/RKKoranteng/liquibase-project" target="_blank">Here's a Azure DevOps CI/CD pipeline</a> that:
 
 - Validates database changes using Liquibase
 - Automates deployments to Dev, Staging, and Production
