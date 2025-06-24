@@ -6,12 +6,12 @@ order: 4
 
 Hello world! My name is Richard. I'm a Sys Admin, turned Web Dev, turned DBA. 
 
-I'm always building IT. Here's what I've been up to:
+I'm always building IT. Here's the 411 on me:
 
-* ➡️ maintain this site, [rkkoranteng.com](https://rkkoranteng.com) 😏
-* ➡️ built and maintain website for startup - [elda-to.com](https://elda-to.com/)
-* ➡️ building free learning materials for The Modern DBA Project (coming soon)
-* ➡️ [blog](https://rkkoranteng.com/categories/) because my crap has to live somewhere 
+* ➡️ Principal Consultat @ [rkkoranteng.com](https://rkkoranteng.com) 😏
+* ➡️ I enjoy modernizing database workloads 
+* ➡️ I'm a DBA advocate and share my code on [github.com/RKKoranteng](https://github.com/rkkoranteng) 
+* ➡️ When I'm not working, I like watching soccer with my family
 
 Want to connect with me?
 * 📆 [Schedule a Call](https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2BMW_ebBrDPEnl5n3oiZziXvGFj0LRBzxEQZTsjCmE_M-OWgymxc6LqCIRmCe96LgKfmeK87OT)
