@@ -1,0 +1,31 @@
+name: 💡 Feature Add & Enhancements
+description: Feature Add & Enhancements
+title: "Task: "
+labels: ["enhancement"]
+assignees: "rkkoranteng"
+projects: "RKKoranteng/23"
+body:
+     
+  - type: textarea
+    id: User-Story
+    attributes:
+      label: User Story
+      value: |
+        As a ,
+        I want to ,
+        So that ,
+    validations:
+      required: true
+      
+  - type: markdown
+    id: Acceptance-Criteria
+    attributes:
+      value: |
+        ### Acceptance Criteria
+        - [x] **Code Quality** - All tasks for the story are completed and reviewed
+        - [x] **Security and Compliance** - Code has been reviewed for sensitive stuff like passwords etc 
+        - [x] **Testing** - Feature add/enhancements work as expected
+        - [x] **Documentation** - User guide completed. I need this for my future reference 😅
+        - [x] **No Tech-Debt** - The deployment checklist is completed and the acceptance criteria in the story are met.
+    validations:
+      required: true
