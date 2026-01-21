@@ -14,9 +14,9 @@ timezone: America/New_York
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: rk.blog # the main title
+title: rkkorateng.com # the main title
 
-tagline: Database Engineering Blog  # it will display as the sub-title
+tagline: Database Engineering  # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
   Blogging about databases, automation, cloud and my continuous improvement DevOps journey.
