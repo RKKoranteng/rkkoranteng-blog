@@ -14,7 +14,7 @@ timezone: America/New_York
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: rkkorateng.com # the main title
+title: rkkoranteng # the main title
 
 tagline: Database Engineering  # it will display as the sub-title
 
