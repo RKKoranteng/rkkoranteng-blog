@@ -2,4 +2,7 @@
 assets/xml/*.drawio
 
 # pages
-_tabs/speaking.md
+_tabs/speaking.
+
+# wip posts 
+_posts/2026-07-29*.md
