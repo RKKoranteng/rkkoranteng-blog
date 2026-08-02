@@ -16,6 +16,7 @@ This project adheres to [Calendar Versioning](https://calver.org/).
 
 ## Released 
 
+- 2026.08.01 : fix - github pages redirect to rkkoranteng.com
 - 2026.08.01 : chg - simplify CHANGELOG cadence
 - 2026.08.01 : chg - updated README with relevant details about blog site and supporting them (inspiration from JoshOps)
 - 2026.08.01 : chg - CNAME to point page to rkkoranteng.com
