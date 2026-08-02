@@ -1,12 +1,16 @@
-# blog: my-agile-journey
+# rkkoranteng.com
 
 ## Overview
 
-My Agile Journey - Blogging about automating database workloads, making DBA teams more agile, and my continuous improvement DevOps journey.
+A DBA Blog - Blogging about modern DBA practices, tips, scripts, and my continuous improvement Database Engineering journey. 
 
-[**my-agile-journey →**](https://rkkoranteng.github.io/my-agile-journey/)
+[**rkkoranteng.com**](https://rkkoranteng.com)
 
-[![r.K: Build and Deploy](https://github.com/RKKoranteng/my-agile-journey/actions/workflows/jekyll.yml/badge.svg?branch=main)](https://github.com/RKKoranteng/my-agile-journey/actions/workflows/jekyll.yml)
+## Changelog
+
+All notable changes to this project will be documented in the [CHANGELOG](CHANGELOG.md)
+
+This project adheres to [Calendar Versioning](https://calver.org/).
 
 ## Theme Source
 
