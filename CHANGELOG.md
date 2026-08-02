@@ -11,7 +11,7 @@ This project adheres to [Calendar Versioning](https://calver.org/).
 * del: deleted feature/functionality
 * fix: fixed bugs/incorrect behavior corrected
 
-## To-do
+## To-do List
 - add badges (workflow status, blog post, most recent post)
 
 ## Released 
