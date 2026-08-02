@@ -3,7 +3,7 @@ title: 'Vagrant Up Throws Undefined Method Error'
 author: Richard Koranteng
 date: 2026-01-21 15:00:00 -0600
 description: undefined method `exists?' for class File (NoMethodError)
-categories: [Issues]
+categories: [Issues, Vagrant]
 tags: [Vagrant, VirtualBox]
 img_path: /assets/screenshots
 image:
