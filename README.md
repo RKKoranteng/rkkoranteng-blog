@@ -29,3 +29,7 @@ Preview locally from the repo root with any static server, e.g. `python -m http.
 2. Add the post to `blog/index.html` and, if it's one of the latest three, to the "Recent writing" list in `index.html`.
 3. Add an `<entry>` to `feed.xml` and a `<url>` to `sitemap.xml`.
 4. Update the Older/Newer links at the bottom of the neighboring post.
+
+## License
+
+Site content (writing, images, branding) is © Richard Koranteng, all rights reserved. Code (CSS, JS, workflows, and code samples in posts) is MIT licensed. See [LICENSE](LICENSE).
