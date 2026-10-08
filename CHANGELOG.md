@@ -6,12 +6,11 @@ and this project uses [Calendar Versioning](https://calver.org/) (YYYY.MM.DD).
 
 ## [Unreleased]
 
-## [2026.10.08]
-
 ### Added
 - Consulting-focused home page and services page (advisory, consulting, coaching, fractional)
 - Copyright and disclaimer page, privacy policy page
 - RK monogram favicon, light/dark theme toggle, blog topic filter
+- Workflow that dates Unreleased changelog entries automatically on merge to main
 
 ### Changed
 - Rebuilt the site as plain HTML/CSS/JS with no build step; posts keep their `/posts/<slug>/` URLs

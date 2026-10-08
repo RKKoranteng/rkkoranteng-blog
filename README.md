@@ -23,5 +23,7 @@ Preview locally with any static server, e.g. `python -m http.server 8080`.
 
 ## Changelog and license
 
-Notable changes are in [CHANGELOG](CHANGELOG.md). Content is © Richard Koranteng, all rights
-reserved, and code is MIT licensed. See [LICENSE](LICENSE).
+Notable changes are in [CHANGELOG](CHANGELOG.md). Add entries under `## [Unreleased]`; when they
+reach `main`, [`changelog.yml`](.github/workflows/changelog.yml) moves them to a release dated that day.
+
+Content is © Richard Koranteng, all rights reserved, and code is MIT licensed. See [LICENSE](LICENSE).

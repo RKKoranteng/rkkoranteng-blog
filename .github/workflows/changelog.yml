@@ -1,0 +1,38 @@
+# When a push to main changes CHANGELOG.md, moves the entries under
+# "## [Unreleased]" to a release dated today and commits the result.
+name: "r.K: Release Changelog"
+
+on:
+  push:
+    branches: ["main"]
+    paths: ["CHANGELOG.md"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "changelog"
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Date unreleased entries
+        id: release
+        run: echo "date=$(node .github/scripts/release-changelog.js CHANGELOG.md)" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push
+        if: steps.release.outputs.date != ''
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Release changelog ${{ steps.release.outputs.date }}"
+          git pull --rebase origin main
+          git push origin HEAD:main
