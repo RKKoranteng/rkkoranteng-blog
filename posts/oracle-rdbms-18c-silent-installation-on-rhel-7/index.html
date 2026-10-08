@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Oracle 18c GI &amp; RDMS on RHEL7 | Richard Koranteng</title>
+  <meta name="description" content="Silent installation of Oracle 18c Grid Infrastructure and Database on Red Hat Enterprise Linux 7">
+  <link rel="canonical" href="https://rkkoranteng.com/posts/oracle-rdbms-18c-silent-installation-on-rhel-7/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Oracle 18c GI &amp; RDMS on RHEL7">
+  <meta property="og:description" content="Silent installation of Oracle 18c Grid Infrastructure and Database on Red Hat Enterprise Linux 7">
+  <meta property="og:url" content="https://rkkoranteng.com/posts/oracle-rdbms-18c-silent-installation-on-rhel-7/">
+  <meta property="og:image" content="https://rkkoranteng.com/assets/screenshots/2019-03-24-oracle-rdbms-18c-silent-installation-on-rhel-7/2019-03-24-oracle-rdbms-18c-silent-installation-on-rhel-7.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicons/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/img/favicons/apple-touch-icon.png">
+  <meta name="theme-color" content="#0d6b68">
+  <link rel="alternate" type="application/atom+xml" title="Richard Koranteng" href="/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script>(function(){var r=document.documentElement;r.classList.add('js');try{var t=localStorage.getItem('theme');if(t)r.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <script src="/assets/js/main.js" defer></script>
+  <meta property="article:published_time" content="2019-03-24">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <img src="/assets/img/richard-koranteng.jpg" alt="" width="34" height="34">
+        <span>Richard Koranteng<small>Database Engineering</small></span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/blog/" aria-current="page">Blog</a></li>
+          <li><a href="/speaking/">Speaking</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a class="btn btn-primary" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2BMW_ebBrDPEnl5n3oiZziXvGFj0LRBzxEQZTsjCmE_M-OWgymxc6LqCIRmCe96LgKfmeK87OT" target="_blank" rel="noopener">Book a call</a></li>
+        </ul>
+      </nav>
+      <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button class="icon-btn nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <article>
+      <div class="container">
+        <header class="post-header prose-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/blog/">&larr; All posts</a></nav>
+          <h1>Oracle 18c GI &amp; RDMS on RHEL7</h1>
+          <p class="lead">Silent installation of Oracle 18c Grid Infrastructure and Database on Red Hat Enterprise Linux 7</p>
+          <div class="meta">
+            <time datetime="2019-03-24">Mar 24, 2019</time>
+            <span>4 min read</span>
+          </div>
+        </header>
+        <figure class="post-cover prose-width"><img src="/assets/screenshots/2019-03-24-oracle-rdbms-18c-silent-installation-on-rhel-7/2019-03-24-oracle-rdbms-18c-silent-installation-on-rhel-7.png" alt="oracle rdbms 18c silent install"></figure>
+        <div class="post-layout">
+          <div class="prose">
+<p>This post describes silent installation and configuration of Grid Infrastructure 18c (64bit) and Oracle Database 18c (64bit) on RHEL 7. The implementation described in this blog is based on a server installation with a minimum resource allocations required by Oracle.</p>
+<h2 id="download-softwares">Download Softwares</h2>
+<p><a href="https://www.oracle.com/technetwork/database/enterprise-edition/downloads/oracle18c-linux-180000-5022980.html" rel="noopener">Download software from OTN</a></p>
+<ul>
+<li>Database 18c (18.3) for Linux x86-64 (<code class="filepath">LINUX.X64_180000_db_home.zip</code>)</li>
+<li>Grid Infrastructure (18.3) for Linux x86-64 (<code class="filepath">LINUX.X64_180000_grid_home.zip</code>)</li>
+</ul>
+<h2 id="pre-install-tasks">Pre-Install Tasks</h2>
+<aside class="callout callout-info"><span class="callout-label">Note</span><ul>
+<li>Pre-install tasks are performed as root OS user</li>
+<li>Oracle recommends that you disable THP on all Oracle Database servers and rather use standard HugePages for enhanced performance. For Oracle Linux 7 and later, and Red Hat Enterprise Linux 7 and later, add <code>transparent_hugepage=never</code> in the <code class="filepath">/etc/default/grub file</code>.</li>
+<li>Ensure the <code class="filepath">/etc/hosts</code> file to contain the IP and FQDN of the server. </li>
+<li>Ensure the correct hostname in the <code class="filepath">/etc/hostname</code> file</li>
+</ul>
+</aside>
+<p>Identify your ASM disk by adding them to the to <code class="filepath">/etc/udev/rules.d/97-oracleasm.rules</code>. It should look like this:</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>OWNER=<span class="hljs-string">&quot;grid&quot;</span>, GROUP=<span class="hljs-string">&quot;asmadmin&quot;</span>, MODE=<span class="hljs-string">&quot;0660&quot;</span>, ENV{DEVTYPE}==<span class="hljs-string">&quot;disk&quot;</span>, KERNEL==<span class="hljs-string">&quot;xvdca&quot;</span>, SYMLINK+=<span class="hljs-string">&quot;oracleasm/disks/DATA1&quot;</span>
+OWNER=<span class="hljs-string">&quot;grid&quot;</span>, GROUP=<span class="hljs-string">&quot;asmadmin&quot;</span>, MODE=<span class="hljs-string">&quot;0660&quot;</span>, ENV{DEVTYPE}==<span class="hljs-string">&quot;disk&quot;</span>, KERNEL==<span class="hljs-string">&quot;xvdcb&quot;</span>, SYMLINK+=<span class="hljs-string">&quot;oracleasm/disks/FRA1&quot;</span></code></pre></div>
+<p>Reload udev rules</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>udevadm control --reload-rules
+udevadm trigger</code></pre></div>
+<p>Run the following command to initialize ASM disks</p>
+<div class="code-block"><span class="lang">bash</span><pre><code><span class="hljs-keyword">for</span> dsk <span class="hljs-keyword">in</span> `<span class="hljs-built_in">ls</span> /dev/oracleasm/disks/*`; <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;initializing &#x27;</span>,<span class="hljs-variable">${dsk}</span>; <span class="hljs-built_in">dd</span> <span class="hljs-keyword">if</span>=/dev/zero of=<span class="hljs-variable">${dsk}</span> bs=4096 count=1; <span class="hljs-keyword">done</span></code></pre></div>
+<p>Adjust your Linux kernels as needed for your environment by adding the necessary entries and values in the <code class="filepath">/etc/sysctl.conf</code>. Reload the updated Linux kernels by running the following command:</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>sysctl -p</code></pre></div>
+<p>Adjust system resources available to oracle and grid OS user process by adding the necessary enrties and values in the <code class="filepath">/etc/security/limits.d/oracle-database-preinstall-18c.conf</code>.</p>
+<p>Install the following required OS packages required for RHEL 7.</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>yum install -y bc binutils compat-libcap1 compat-libstdc++-33 compat-libstdc++-33.i686 elfutils-libelf.i686 elfutils-libelf elfutils-libelf-devel.i686 elfutils-libelf-devel fontconfig-devel glibc.i686 glibc glibc-devel.i686 glibc-devel ksh libaio.i686 libaio libaio-devel.i686 libaio-devel libX11.i686 libX11 libXau.i686 libXau libXi.i686 libXi libXtst.i686 libXtst libgcc.i686 libgcc librdmacm-devel libstdc++.i686 libstdc++ libstdc++-devel.i686 libstdc++-devel libxcb.i686 libxcb make nfs-utils net-tools python python-configshell python-rtslib python-six smartmontools sysstat targetcli unixODBC</code></pre></div>
+<p>Create the OS users and groups for the Oracle software stack</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>groupadd oinstall
+groupadd dba
+groupadd bckpdba
+groupadd dgdba
+groupadd kmdba
+groupadd asmoper
+groupadd asmadmin
+groupadd asmdba
+useradd -g oinstall -G dba,bckpdba,dgdba,kmdba,asmoper,asmadmin oracle
+useradd -g oinstall -G dba,asmoper,asmadmin grid</code></pre></div>
+<p>Ensure secure Linux is set to <code>targeted</code> in <code class="filepath">/etc/selinux/config</code></p>
+<div class="code-block"><span class="lang">bash</span><pre><code>SELINUX= can take one of these three values:
+ enforcing - SELinux security policy is enforced.
+ permissive - SELinux prints warnings instead of enforcing.
+ disabled - No SELinux policy is loaded.
+ SELINUX=enforcing
+ SELINUXTYPE= can take one of three two values:
+ targeted - Targeted processes are protected,
+ minimum - Modification of targeted policy. Only selected processes are protected.
+ mls - Multi Level Security protection.
+ SELINUXTYPE=targeted</code></pre></div>
+<p>Create software directories as needed. In my case I will simply assign ownership of an entire mountpoint</p>
+<div class="code-block"><span class="lang">bash</span><pre><code><span class="hljs-built_in">mkdir</span> /u01
+<span class="hljs-built_in">chown</span> -R oracle:oinstall /u01
+<span class="hljs-built_in">chmod</span> 770 /u01</code></pre></div>
+<h2 id="grid-infrastructure-installation-configuration-tasks">Grid Infrastructure Installation &amp; Configuration Tasks</h2>
+<aside class="callout callout-info"><span class="callout-label">Note</span><p>GI installation tasks are performed as grid OS user</p>
+</aside>
+<p>Add the following lines to the <code class="filepath">/home/grid/.bash_profile</code></p>
+<div class="code-block"><span class="lang">bash</span><pre><code>ORACLE_BASE=/u01/grid/base; <span class="hljs-built_in">export</span> ORACLE_BASE
+GRID_HOME=/u01/grid/home; <span class="hljs-built_in">export</span> GRID_HOME
+ORACLE_HOME=<span class="hljs-variable">$GRID_HOME</span>; <span class="hljs-built_in">export</span> ORACLE_HOME
+ORACLE_SID=+ASM; <span class="hljs-built_in">export</span> ORACLE_SID
+PATH=<span class="hljs-variable">$PATH</span>:<span class="hljs-variable">$ORACLE_HOME</span>/bin:<span class="hljs-variable">$ORACLE_HOME</span>/OPatch; <span class="hljs-built_in">export</span> PATH</code></pre></div>
+<p>Source the grid OS user profile</p>
+<div class="code-block"><span class="lang">bash</span><pre><code><span class="hljs-built_in">source</span> ~/.bash_profile</code></pre></div>
+<p>Add the following lines in <code class="filepath">/home/grid/gi_soft.rsp</code> in-order to create the response file for silent software installation.</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>oracle.install.responseFileVersion=/oracle/install/rspfmt_crsinstall_response_schema_v18.0.0 INVENTORY_LOCATION=/u01/oraInventory oracle.install.option=HA_CONFIG ORACLE_BASE=/u01/grid/base oracle.install.asm.OSDBA=oinstall oracle.install.asm.OSASM=asmadmin oracle.install.asm.storageOption=ASM oracle.install.asm.SYSASMPassword=putYourPassword oracle.install.asm.diskGroup.name=DATA oracle.install.asm.diskGroup.redundancy=EXTERNAL oracle.install.asm.diskGroup.disks=/dev/oracleasm/disks/DATA1,/dev/oracleasm/disks/FRA1 oracle.install.asm.diskGroup.diskDiscoveryString=/dev/oracleasm/disks/* oracle.install.asm.monitorPassword=putYourPassword oracle.install.asm.configureAFD=<span class="hljs-literal">false</span></code></pre></div>
+<p>Unzip GI 18c software</p>
+<div class="code-block"><span class="lang">bash</span><pre><code><span class="hljs-built_in">mkdir</span> -p /u01/grid/home
+unzip /software_download/LINUX.X64_180000_grid_home.zip -d /u01/grid/home</code></pre></div>
+<p>Invoke OUI silent installation</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>/u01/grid/home/gridSetup.sh -silent -responseFile /home/grid/gi_soft.rsp</code></pre></div>
+<p>Open another terminal, then run the post install scripts below as root OS user</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>/u01/oraInventory/orainstRoot.sh
+/u01/grid/home/root.sh[</code></pre></div>
+<p>Run the following command to complete GI configuration</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>/u01/grid/home/gridSetup.sh -executeConfigTools -responseFile /home/grid/gi_soft.rsp -silent</code></pre></div>
+<p>Confirm +ASM instance is running</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>ps -ef | grep smon</code></pre></div>
+<p>Confirm +DATA diskgroup is created</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>asmcmd lsdg</code></pre></div>
+<p>Create remaining ASM diskgroups that will be used by the database</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>asmca -silent -createDiskGroup -diskString <span class="hljs-string">&#x27;/dev/oracleasm/disks/*&#x27;</span> -diskGroupName FRA -disk <span class="hljs-string">&#x27;/dev/oracleasm/disks/FRA*&#x27;</span> -redundancy EXTERNAL -au_size 4</code></pre></div>
+<h2 id="database-installation-and-configuration-tasks">Database Installation and Configuration Tasks</h2>
+<aside class="callout callout-info"><span class="callout-label">Note</span><p>DB installation tasks are performed as oracle OS user</p>
+</aside>
+<p>Add the following lines to the <code class="filepath">/home/oracle/.bash_profile</code></p>
+<div class="code-block"><span class="lang">bash</span><pre><code>ORACLE_BASE=/u01/app; <span class="hljs-built_in">export</span> ORACLE_BASE
+ORACLE_HOME=/u01/app/18R3; <span class="hljs-built_in">export</span> ORACLE_HOME
+<span class="hljs-built_in">export</span> ORACLE_SID=testdb
+PATH=<span class="hljs-variable">$PATH</span>:<span class="hljs-variable">$ORACLE_HOME</span>/bin:<span class="hljs-variable">$ORACLE_HOME</span>/OPatch; <span class="hljs-built_in">export</span> PATH</code></pre></div>
+<p>Source the profile</p>
+<div class="code-block"><span class="lang">bash</span><pre><code><span class="hljs-built_in">source</span> ~/.bash_profile</code></pre></div>
+<p>Add the following lines in <code class="filepath">/home/oracle/db_soft_only.rsp</code> in-order to create the response file for silent software only installation</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>oracle.install.responseFileVersion=/oracle/install/rspfmt_dbinstall_response_schema_v18.0.0 oracle.install.option=INSTALL_DB_SWONLY UNIX_GROUP_NAME=oinstall INVENTORY_LOCATION=/u01/oraInventory ORACLE_HOME=/u01/app/18R3 ORACLE_BASE=/u01/app oracle.install.db.InstallEdition=EE oracle.install.db.OSDBA_GROUP=dba oracle.install.db.OSOPER_GROUP=dba oracle.install.db.OSBACKUPDBA_GROUP=bckpdba oracle.install.db.OSDGDBA_GROUP=dgdba oracle.install.db.OSKMDBA_GROUP=kmdba oracle.install.db.OSRACDBA_GROUP=dba SECURITY_UPDATES_VIA_MYORACLESUPPORT=<span class="hljs-literal">false</span> DECLINE_SECURITY_UPDATES=<span class="hljs-literal">true</span> oracle.installer.autoupdates.option=SKIP_UPDATES</code></pre></div>
+<p>Unzip oracle Database 18c software</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>unzip /software_download/LINUX.X64_180000_db_home.zip -d /u01/app/18R3</code></pre></div>
+<p>Invoke OUI silent installation</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>u01/app/18R3/runInstaller -silent -responseFile ~/db_soft_only.rsp</code></pre></div>
+<p>Upon installation completion, execute the post installation scripts</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>/u01/app/18R3/root.sh</code></pre></div>
+<p>Use the command below to create a general purpose transaction database</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>dbca -silent -createDatabase -templateName General_Purpose.dbc -gdbName <span class="hljs-variable">$ORACLE_SID</span> -sid <span class="hljs-variable">$ORACLE_SID</span> -sysPassword putYOURPASSWORD -systemPassword putYOURPASSWORD -storageType ASM -diskGroupName +DATA -recoveryGroupName +FRA -responseFile NO_VALUE -createAsContainerDatabase <span class="hljs-literal">false</span> -characterSet AL32UTF8 -nationalCharacterSet AL16UTF16 -archiveLogMode <span class="hljs-literal">true</span> -databaseType MULTIPURPOSE -emConfiguration NONE</code></pre></div>
+<p>Confirm database instance is running</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>ps -ef | grep smon</code></pre></div>
+<p>Confirm database is open</p>
+<div class="code-block"><span class="lang">sql</span><pre><code><span class="hljs-keyword">select</span> open_mode <span class="hljs-keyword">from</span> v$database;</code></pre></div>
+
+            <footer class="post-footer">
+              <ul class="tags"><li><a class="tag" href="/blog/?tag=Oracle">Oracle</a></li><li><a class="tag" href="/blog/?tag=Grid%20Infrastructure">Grid Infrastructure</a></li><li><a class="tag" href="/blog/?tag=ASM">ASM</a></li></ul>
+              <div class="card post-cta">
+                <h3>Need a hand with this in your environment?</h3>
+                <p>I help teams automate database changes, run cloud databases as code, and get migrations done. Tell me what you're working on.</p>
+                <a class="btn btn-primary" href="/services/">See how I can help</a>
+              </div>
+              <nav class="post-nav" aria-label="More posts">
+                
+                <a class="next" href="/posts/disable-thp-rhel7/"><small>Newer</small>Disable THP on RHEL7</a>
+              </nav>
+            </footer>
+          </div>
+          <aside class="toc" aria-label="On this page">
+            <h2>On this page</h2>
+            <ol>
+              <li><a href="#download-softwares">Download Softwares</a></li>
+              <li><a href="#pre-install-tasks">Pre-Install Tasks</a></li>
+              <li><a href="#grid-infrastructure-installation-configuration-tasks">Grid Infrastructure Installation &amp; Configuration Tasks</a></li>
+              <li><a href="#database-installation-and-configuration-tasks">Database Installation and Configuration Tasks</a></li>
+            </ol>
+          </aside>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span data-year>2026</span> Richard Koranteng. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="/services/">Services</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="https://www.linkedin.com/in/richard-koranteng" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/RKKoranteng" rel="noopener">GitHub</a></li>
+        <li><a href="/copyright/">Copyright</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>

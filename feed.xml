@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Richard Koranteng</title>
+  <subtitle>Database engineering: automation, DevOps, CI/CD, and cloud.</subtitle>
+  <link href="https://rkkoranteng.com/feed.xml" rel="self"/>
+  <link href="https://rkkoranteng.com/"/>
+  <id>https://rkkoranteng.com/</id>
+  <updated>2026-01-21T00:00:00Z</updated>
+  <author><name>Richard Koranteng</name></author>
+  <entry>
+    <title>Vagrant Up Throws Undefined Method Error</title>
+    <link href="https://rkkoranteng.com/posts/vagrant-up-throws-undefined-method-error/"/>
+    <id>https://rkkoranteng.com/posts/vagrant-up-throws-undefined-method-error/</id>
+    <published>2026-01-21T00:00:00Z</published>
+    <updated>2026-01-21T00:00:00Z</updated>
+    <summary>undefined method `exists?' for class File (NoMethodError)</summary>
+    <category term="Vagrant"/>
+    <category term="VirtualBox"/>
+  </entry>
+  <entry>
+    <title>Self-service CI/CD pipeline for database deployments with Liquibase &amp; Azure DevOps</title>
+    <link href="https://rkkoranteng.com/posts/database-ci-cd-pipeline/"/>
+    <id>https://rkkoranteng.com/posts/database-ci-cd-pipeline/</id>
+    <published>2025-06-24T00:00:00Z</published>
+    <updated>2025-06-24T00:00:00Z</updated>
+    <summary>Self-service CI/CD pipeline for Oracle database deployments with Liquibase &amp; Azure DevOps</summary>
+    <category term="Liquibase"/>
+    <category term="Azure DevOps"/>
+  </entry>
+  <entry>
+    <title>Liquibase Checksum Error</title>
+    <link href="https://rkkoranteng.com/posts/liquibase-checksum-error/"/>
+    <id>https://rkkoranteng.com/posts/liquibase-checksum-error/</id>
+    <published>2025-03-09T00:00:00Z</published>
+    <updated>2025-03-09T00:00:00Z</updated>
+    <summary>Liquibase Checksum Error</summary>
+    <category term="Liquibase"/>
+  </entry>
+  <entry>
+    <title>Build Error at Setup Ruby Atage of Build and Deploy on Actions</title>
+    <link href="https://rkkoranteng.com/posts/actions-build-error-at-setup-rep/"/>
+    <id>https://rkkoranteng.com/posts/actions-build-error-at-setup-rep/</id>
+    <published>2025-02-15T00:00:00Z</published>
+    <updated>2025-02-15T00:00:00Z</updated>
+    <summary>Build Error at Setup Ruby Atage of Build and Deploy on Action</summary>
+    <category term="GitHub Actions"/>
+  </entry>
+  <entry>
+    <title>GitHub Actions Resource Not Accessible By Integration</title>
+    <link href="https://rkkoranteng.com/posts/github-action-resource-not-assessiable/"/>
+    <id>https://rkkoranteng.com/posts/github-action-resource-not-assessiable/</id>
+    <published>2024-02-22T00:00:00Z</published>
+    <updated>2024-02-22T00:00:00Z</updated>
+    <summary>GitHub Actions Resource Not Accessible By Integration</summary>
+    <category term="GitHub Actions"/>
+  </entry>
+  <entry>
+    <title>Simple Ansible Playbook to Create RDS Instance</title>
+    <link href="https://rkkoranteng.com/posts/ansible-for-rds/"/>
+    <id>https://rkkoranteng.com/posts/ansible-for-rds/</id>
+    <published>2021-09-27T00:00:00Z</published>
+    <updated>2021-09-27T00:00:00Z</updated>
+    <summary>Simple Ansible Playbook to Create RDS Instance</summary>
+    <category term="Ansible"/>
+    <category term="AWS"/>
+  </entry>
+  <entry>
+    <title>How-to: Flashback Data Gaurd Database</title>
+    <link href="https://rkkoranteng.com/posts/flashback-datagaurd-db/"/>
+    <id>https://rkkoranteng.com/posts/flashback-datagaurd-db/</id>
+    <published>2019-06-10T00:00:00Z</published>
+    <updated>2019-06-10T00:00:00Z</updated>
+    <summary>Flashback a Data Gaurd database</summary>
+    <category term="Oracle"/>
+    <category term="Recovery"/>
+  </entry>
+  <entry>
+    <title>OEM 13c on RHEL6</title>
+    <link href="https://rkkoranteng.com/posts/oem13c-installation-on-rhel6/"/>
+    <id>https://rkkoranteng.com/posts/oem13c-installation-on-rhel6/</id>
+    <published>2019-04-25T00:00:00Z</published>
+    <updated>2019-04-25T00:00:00Z</updated>
+    <summary>Oracle Enterprise Manager installation on Red Hat Enterprise Linux 6</summary>
+    <category term="Oracle"/>
+    <category term="Monitoring"/>
+  </entry>
+  <entry>
+    <title>Disable THP on RHEL7</title>
+    <link href="https://rkkoranteng.com/posts/disable-thp-rhel7/"/>
+    <id>https://rkkoranteng.com/posts/disable-thp-rhel7/</id>
+    <published>2019-04-16T00:00:00Z</published>
+    <updated>2019-04-16T00:00:00Z</updated>
+    <summary>Disable Transparent Huge Pages on Red Hat Enterprise Linux 7</summary>
+    <category term="Oracle"/>
+    <category term="HugePages"/>
+  </entry>
+  <entry>
+    <title>Oracle 18c GI &amp; RDMS on RHEL7</title>
+    <link href="https://rkkoranteng.com/posts/oracle-rdbms-18c-silent-installation-on-rhel-7/"/>
+    <id>https://rkkoranteng.com/posts/oracle-rdbms-18c-silent-installation-on-rhel-7/</id>
+    <published>2019-03-24T00:00:00Z</published>
+    <updated>2019-03-24T00:00:00Z</updated>
+    <summary>Silent installation of Oracle 18c Grid Infrastructure and Database on Red Hat Enterprise Linux 7</summary>
+    <category term="Oracle"/>
+    <category term="Grid Infrastructure"/>
+    <category term="ASM"/>
+  </entry>
+</feed>

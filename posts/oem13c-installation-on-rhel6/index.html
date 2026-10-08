@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OEM 13c on RHEL6 | Richard Koranteng</title>
+  <meta name="description" content="Oracle Enterprise Manager installation on Red Hat Enterprise Linux 6">
+  <link rel="canonical" href="https://rkkoranteng.com/posts/oem13c-installation-on-rhel6/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="OEM 13c on RHEL6">
+  <meta property="og:description" content="Oracle Enterprise Manager installation on Red Hat Enterprise Linux 6">
+  <meta property="og:url" content="https://rkkoranteng.com/posts/oem13c-installation-on-rhel6/">
+  <meta property="og:image" content="https://rkkoranteng.com/assets/screenshots/2019-04-25-oem13c-installation-on-rhel6/2019-04-25-oem13c-installation-on-rhel6.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicons/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/img/favicons/apple-touch-icon.png">
+  <meta name="theme-color" content="#0d6b68">
+  <link rel="alternate" type="application/atom+xml" title="Richard Koranteng" href="/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script>(function(){var r=document.documentElement;r.classList.add('js');try{var t=localStorage.getItem('theme');if(t)r.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <script src="/assets/js/main.js" defer></script>
+  <meta property="article:published_time" content="2019-04-25">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <img src="/assets/img/richard-koranteng.jpg" alt="" width="34" height="34">
+        <span>Richard Koranteng<small>Database Engineering</small></span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/blog/" aria-current="page">Blog</a></li>
+          <li><a href="/speaking/">Speaking</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a class="btn btn-primary" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2BMW_ebBrDPEnl5n3oiZziXvGFj0LRBzxEQZTsjCmE_M-OWgymxc6LqCIRmCe96LgKfmeK87OT" target="_blank" rel="noopener">Book a call</a></li>
+        </ul>
+      </nav>
+      <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button class="icon-btn nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <article>
+      <div class="container">
+        <header class="post-header prose-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/blog/">&larr; All posts</a></nav>
+          <h1>OEM 13c on RHEL6</h1>
+          <p class="lead">Oracle Enterprise Manager installation on Red Hat Enterprise Linux 6</p>
+          <div class="meta">
+            <time datetime="2019-04-25">Apr 25, 2019</time>
+            <span>3 min read</span>
+          </div>
+        </header>
+        <figure class="post-cover prose-width"><img src="/assets/screenshots/2019-04-25-oem13c-installation-on-rhel6/2019-04-25-oem13c-installation-on-rhel6.png" alt="oem 13c performance hub"></figure>
+        <div class="post-layout">
+          <div class="prose">
+<p>This blog describes installation and configuration of Oracle Enterprise Manager (OEM) Cloud Control 13c on RHEL6. The implementation described in this blog is based on a server installation with a minimum resource allocations required by Oracle.</p>
+<aside class="callout callout-info"><span class="callout-label">Note</span><p>In this example, I”ve decided to install the Oracle Management Service (OMS) on a separate host than the Oracle Management Repository.</p>
+<ul>
+<li>Management Repository Host (DB): dbhost</li>
+<li>Management Service Host (OMS): oemhost</li>
+</ul>
+</aside>
+<h2 id="download-softwares">Download Softwares</h2>
+<p><a href="https://www.oracle.com/technetwork/oem/grid-control/downloads/oem-linux64-4956012.html" rel="noopener">Download software from OTN</a></p>
+<ul>
+<li><code class="filepath">em13300_linux64.bin</code></li>
+<li><code class="filepath">em13300_linux64-2.zip</code></li>
+<li><code class="filepath">em13300_linux64-3.zip</code></li>
+<li><code class="filepath">em13300_linux64-4.zip</code></li>
+<li><code class="filepath">em13300_linux64-5.zip</code></li>
+<li><code class="filepath">em13300_linux64-6.zip</code></li>
+</ul>
+<h2 id="db-repo-configuration">DB Repo Configuration</h2>
+<p>OEM needs a database repo. Specifically, OEM 13c needs at least 12.1.0.2 for the repository database. If you need to install and configure a database, check out  my post detailing <a href="/posts/oracle-rdbms-18c-silent-installation-on-rhel-7/">Oracle 18c on Red Hat Linux 7</a>.</p>
+<p>Once you’ve provisioned the repository database, run the following SQL commands to set the recommended database instance parameters (you can omit parameters which you’ve already set greater than the recommended minimums).</p>
+<div class="code-block"><span class="lang">sql</span><pre><code><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">SYSTEM</span> <span class="hljs-keyword">SET</span> &quot;_allow_insert_with_update_check&quot;<span class="hljs-operator">=</span><span class="hljs-literal">TRUE</span> <span class="hljs-keyword">scope</span><span class="hljs-operator">=</span><span class="hljs-keyword">both</span>;
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">SYSTEM</span> <span class="hljs-keyword">SET</span> session_cached_cursors<span class="hljs-operator">=</span><span class="hljs-number">200</span> <span class="hljs-keyword">scope</span><span class="hljs-operator">=</span>spfile;
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">SYSTEM</span> <span class="hljs-keyword">SET</span> sga_target<span class="hljs-operator">=</span> <span class="hljs-number">9184</span>M <span class="hljs-keyword">scope</span><span class="hljs-operator">=</span><span class="hljs-keyword">both</span>;
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">SYSTEM</span> <span class="hljs-keyword">SET</span> pga_aggregate_target<span class="hljs-operator">=</span><span class="hljs-number">3059</span>M <span class="hljs-keyword">scope</span><span class="hljs-operator">=</span><span class="hljs-keyword">both</span>;</code></pre></div>
+<p>Restart the repository database after making the instance parameter changes</p>
+<div class="code-block"><span class="lang">sql</span><pre><code>shu IMMEDIATE
+startup</code></pre></div>
+<h2 id="pre-install-tasks-on-oms-host">Pre-Install Tasks on OMS Host</h2>
+<aside class="callout callout-info"><span class="callout-label">Note</span><p>I completed the following steps on OMS Host (oemhost). All command in this section should be run as root OS user.</p>
+<ul>
+<li>Ensure the <code class="filepath">/etc/hosts</code> file contains the IP and FQDN of the server.</li>
+<li>Ensure the correct hostname in the <code class="filepath">/etc/hostname</code> file.</li>
+</ul>
+</aside>
+<p>Update UDP and TCP ephemeral port range to a range high enough for anticipated system workloads, and to ensure that the ephemeral port range starts at 11,000 and above.</p>
+<div class="code-block"><span class="lang">bash</span><pre><code><span class="hljs-built_in">echo</span> 11000 65000 &gt; /proc/sys/net/ipv4/ip_local_port_rang</code></pre></div>
+<p>Configure IP Tables and kernel parameters</p>
+<ul>
+<li>Update entries to <code class="filepath">/etc/sysconfig/iptables</code> inorder to allow the port needed for OEM component communication</li>
+<li>Adjust your Linux kernels as needed for your environment by adding the necessary entries and values in the <code class="filepath">/etc/sysctl.conf</code></li>
+<li>Reload the updated Linux kernels by running <code>sysctl -p</code></li>
+</ul>
+<p>Install the following required OS packages required for RHEL 6.</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>yum install -y make-3.81 binutils-2.20 gcc-4.4.4 libaio-0.3.107 glibc-common-2.12-1 libstdc++-4.4.4 libXtst-1.0.99.x86_64 sysstat-9.0.4 glibc-devel-2.12-1.7.i686 glibc-devel-2.12-1.7.x86_64</code></pre></div>
+<p>Create the OS users and groups for the OEM software stack</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>groupadd oinstall
+useradd -g oinstall oracle</code></pre></div>
+<p>Ensure <code>SELINUXTYPE=targeted</code> is set in <code class="filepath">/etc/selinux/config</code></p>
+<p>Create software directories as needed. In my case I will simply assign ownership of an entire mountpoint</p>
+<div class="code-block"><span class="lang">bash</span><pre><code><span class="hljs-built_in">chown</span> -R oracle:oinstall /u01
+<span class="hljs-built_in">chmod</span> 770 /u01</code></pre></div>
+<p>Add the following entry in <code class="filepath">/etc/oraInst.loc</code></p>
+<div class="code-block"><span class="lang">bash</span><pre><code>inventory_loc=/u01/oraInventory
+inst_group=oinstall</code></pre></div>
+<p>Change permissions of <code class="filepath">/etc/oraInst.loc</code> file</p>
+<div class="code-block"><span class="lang">bash</span><pre><code><span class="hljs-built_in">chmod</span> 644 /etc/oraInst.loc</code></pre></div>
+<h2 id="oem-installation-and-configuration-on-oms-host">OEM Installation and Configuration on OMS Host</h2>
+<p>Navigate to software location an invoke the installer and generate the response file you need to use for performing a silent installation. The command generates three response files. You must use only the new_install.rsp file for silent installation. Performed as OEM software owner.</p>
+<div class="code-block"><span class="lang">bash</span><pre><code><span class="hljs-built_in">cd</span> /software_download/em13300_linux64.bin -getResponseFileTemplates -outputLoc /home/oracle/</code></pre></div>
+<p>Modify <code class="filepath">/home/oracle/new_install.rsp</code> as needed. See the contents of the response file used for this installation detailed below:</p>
+<aside class="callout callout-info"><span class="callout-label">Note</span><p>Change <code>putYourPassword</code> with you own password.</p>
+</aside>
+<div class="code-block"><span class="lang">bash</span><pre><code>RESPONSEFILE_VERSION=2.2.1.0.0 
+UNIX_GROUP_NAME=oinstall 
+INVENTORY_LOCATION=/u01/oraInventory/ 
+SECURITY_UPDATES_VIA_MYORACLESUPPORT=<span class="hljs-literal">false</span> 
+DECLINE_SECURITY_UPDATES=<span class="hljs-literal">true</span> 
+MYORACLESUPPORT_USERNAME= 
+MYORACLESUPPORT_PASSWORD= 
+INSTALL_UPDATES_SELECTION=skip 
+STAGE_LOCATION= 
+MYORACLESUPPORT_USERNAME_FOR_SOFTWAREUPDATES= 
+MYORACLESUPPORT_PASSWORD_FOR_SOFTWAREUPDATES= 
+PROXY_USER= 
+PROXY_PWD= 
+PROXY_HOST= 
+PROXY_PORT= 
+ORACLE_MIDDLEWARE_HOME_LOCATION=/u01/oms13c/middleware 
+ORACLE_HOSTNAME=oemhost.local 
+AGENT_BASE_DIR=/u01/oms13c/agent13c 
+WLS_ADMIN_SERVER_USERNAME=weblogic 
+WLS_ADMIN_SERVER_PASSWORD=putYourPassword 
+WLS_ADMIN_SERVER_CONFIRM_PASSWORD=putYourPassword 
+NODE_MANAGER_PASSWORD=putYourPassword 
+NODE_MANAGER_CONFIRM_PASSWORD=putYourPassword 
+ORACLE_INSTANCE_HOME_LOCATION=/u01/oms13c/gc_inst 
+CONFIGURE_ORACLE_SOFTWARE_LIBRARY=<span class="hljs-literal">true</span> 
+SOFTWARE_LIBRARY_LOCATION=/u01/oms13c/swlib 
+DATABASE_HOSTNAME=dbhost.local 
+LISTENER_PORT=1521 
+SERVICENAME_OR_SID=testdb 
+SYS_PASSWORD=putYourPassword 
+SYSMAN_PASSWORD=putYourPassword 
+SYSMAN_CONFIRM_PASSWORD=putYourPassword 
+DEPLOYMENT_SIZE=MEDIUM 
+MANAGEMENT_TABLESPACE_LOCATION=+DATA 
+CONFIGURATION_DATA_TABLESPACE_LOCATION=+DATA 
+JVM_DIAGNOSTICS_TABLESPACE_LOCATION=+DATA 
+AGENT_REGISTRATION_PASSWORD=putYourPassword 
+AGENT_REGISTRATION_CONFIRM_PASSWORD=putYourPassword 
+STATIC_PORTS_FILE= 
+PLUGIN_SELECTION={} 
+b_upgrade=<span class="hljs-literal">false</span> 
+EM_INSTALL_TYPE=NOSEED 
+CONFIGURATION_TYPE=ADVANCED 
+CONFIGURE_SHARED_LOCATION_BIP=<span class="hljs-literal">false</span> 
+CONFIG_LOCATION= 
+CLUSTER_LOCATION=</code></pre></div>
+<p>Invoke installer using the command below</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>/software_download/em13300_linux64.bin -silent -responseFile /home/oracle/new_install.rsp -invPtrLoc /etc/oraInst.loc</code></pre></div>
+<h2 id="post-install-tasks-on-oms-host">Post-Install tasks on OMS Host</h2>
+<p>Run the following configuration scripts (<code class="filepath">/u01/oms13c/middleware/allroot.sh</code>) as the root user.</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>/u01/oms13c/middleware/allroot.sh</code></pre></div>
+<p>Check the status of the agent.</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>/u01/oms13c/middleware/emctl status oms -details</code></pre></div>
+<p>Navigate to <code>https://&lt;oms_host_name&gt;:&lt;console_port&gt;/em</code> to see login page for OEM 13c</p>
+<figure><img src="/assets/screenshots/2019-04-25-oem13c-installation-on-rhel6/oem13c-login-page.jpg" alt="OEM 13c Login Page" loading="lazy"><figcaption>oem 13c login page</figcaption></figure>
+
+            <footer class="post-footer">
+              <ul class="tags"><li><a class="tag" href="/blog/?tag=Oracle">Oracle</a></li><li><a class="tag" href="/blog/?tag=Monitoring">Monitoring</a></li></ul>
+              <div class="card post-cta">
+                <h3>Need a hand with this in your environment?</h3>
+                <p>I help teams automate database changes, run cloud databases as code, and get migrations done. Tell me what you're working on.</p>
+                <a class="btn btn-primary" href="/services/">See how I can help</a>
+              </div>
+              <nav class="post-nav" aria-label="More posts">
+                <a class="prev" href="/posts/disable-thp-rhel7/"><small>Older</small>Disable THP on RHEL7</a>
+                <a class="next" href="/posts/flashback-datagaurd-db/"><small>Newer</small>How-to: Flashback Data Gaurd Database</a>
+              </nav>
+            </footer>
+          </div>
+          <aside class="toc" aria-label="On this page">
+            <h2>On this page</h2>
+            <ol>
+              <li><a href="#download-softwares">Download Softwares</a></li>
+              <li><a href="#db-repo-configuration">DB Repo Configuration</a></li>
+              <li><a href="#pre-install-tasks-on-oms-host">Pre-Install Tasks on OMS Host</a></li>
+              <li><a href="#oem-installation-and-configuration-on-oms-host">OEM Installation and Configuration on OMS Host</a></li>
+              <li><a href="#post-install-tasks-on-oms-host">Post-Install tasks on OMS Host</a></li>
+            </ol>
+          </aside>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span data-year>2026</span> Richard Koranteng. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="/services/">Services</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="https://www.linkedin.com/in/richard-koranteng" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/RKKoranteng" rel="noopener">GitHub</a></li>
+        <li><a href="/copyright/">Copyright</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>

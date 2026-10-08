@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Build Error at Setup Ruby Atage of Build and Deploy on Actions | Richard Koranteng</title>
+  <meta name="description" content="Build Error at Setup Ruby Atage of Build and Deploy on Action">
+  <link rel="canonical" href="https://rkkoranteng.com/posts/actions-build-error-at-setup-rep/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Build Error at Setup Ruby Atage of Build and Deploy on Actions">
+  <meta property="og:description" content="Build Error at Setup Ruby Atage of Build and Deploy on Action">
+  <meta property="og:url" content="https://rkkoranteng.com/posts/actions-build-error-at-setup-rep/">
+  <meta property="og:image" content="https://rkkoranteng.com/assets/screenshots/2025-02-15-actions-build-error/actions-build-error.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicons/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/img/favicons/apple-touch-icon.png">
+  <meta name="theme-color" content="#0d6b68">
+  <link rel="alternate" type="application/atom+xml" title="Richard Koranteng" href="/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script>(function(){var r=document.documentElement;r.classList.add('js');try{var t=localStorage.getItem('theme');if(t)r.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <script src="/assets/js/main.js" defer></script>
+  <meta property="article:published_time" content="2025-02-15">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <img src="/assets/img/richard-koranteng.jpg" alt="" width="34" height="34">
+        <span>Richard Koranteng<small>Database Engineering</small></span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/blog/" aria-current="page">Blog</a></li>
+          <li><a href="/speaking/">Speaking</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a class="btn btn-primary" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2BMW_ebBrDPEnl5n3oiZziXvGFj0LRBzxEQZTsjCmE_M-OWgymxc6LqCIRmCe96LgKfmeK87OT" target="_blank" rel="noopener">Book a call</a></li>
+        </ul>
+      </nav>
+      <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button class="icon-btn nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <article>
+      <div class="container">
+        <header class="post-header prose-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/blog/">&larr; All posts</a></nav>
+          <h1>Build Error at Setup Ruby Atage of Build and Deploy on Actions</h1>
+          <p class="lead">Build Error at Setup Ruby Atage of Build and Deploy on Action</p>
+          <div class="meta">
+            <time datetime="2025-02-15">Feb 15, 2025</time>
+            <span>1 min read</span>
+          </div>
+        </header>
+        <figure class="post-cover prose-width"><img src="/assets/screenshots/2025-02-15-actions-build-error/actions-build-error.png" alt="GitHub Actions build error for Pages due to old ruby version"></figure>
+        <div class="post-layout">
+          <div class="prose">
+<h2 id="issue">Issue</h2>
+<p>I recently tried to push updates to my GitHub Pages hosted site (powered by Jekyll Theme) and got the following error at the &#39;Build&#39; stage.</p>
+<div class="code-block"><span class="lang">text</span><pre><code>Run ruby/setup-ruby@8575951200e472d5f2d95c625da0c7bec8217c42
+  with:
+    ruby-version: 3.1
+    bundler-cache: true
+    cache-version: 0
+Error: The current runner (ubuntu-24.04-x64) was detected as self-hosted because the platform does not match a GitHub-hosted runner image (or that image is deprecated and no longer supported).
+In such a case, you should install Ruby in the $RUNNER_TOOL_CACHE yourself, for example using https://github.com/rbenv/ruby-build
+You can take inspiration from this workflow for more details: https://github.com/ruby/ruby-builder/blob/master/.github/workflows/build.yml
+$ ruby-build 3.1.4 /opt/hostedtoolcache/Ruby/3.1.4/x64
+Once that completes successfully, mark it as complete with:
+$ touch /opt/hostedtoolcache/Ruby/3.1.4/x64.complete
+It is your responsibility to ensure installing Ruby like that is not done in parallel.</code></pre></div>
+<h2 id="cause">Cause</h2>
+<p><a href="https://github.com/ruby/setup-ruby/pull/596" rel="noopener">#596</a> was released in <a href="https://github.com/ruby/setup-ruby/releases/tag/v1.177.0" rel="noopener">https://github.com/ruby/setup-ruby/releases/tag/v1.177.0</a></p>
+<p>My workflow is using older version.</p>
+<p>Example:</p>
+<div class="code-block"><span class="lang">yml</span><pre><code><span class="hljs-attr">uses:</span> <span class="hljs-string">ruby/setup-ruby@8575951200e472d5f2d95c625da0c7bec8217c42</span> <span class="hljs-comment"># v1.161.0</span></code></pre></div>
+<h2 id="solution">Solution</h2>
+<p>I updated to newer Ruby version:</p>
+<p>Example:</p>
+<div class="code-block"><span class="lang">yml</span><pre><code><span class="hljs-attr">uses:</span> <span class="hljs-string">ruby/setup-ruby@086ffb1a2090c870a3f881cc91ea83aa4243d408</span> <span class="hljs-comment"># v1.195.0</span></code></pre></div>
+<p><a href="https://github.com/RKKoranteng/rkkoranteng-blog/blob/main/.github/workflows/jekyll.yml#L37" rel="noopener">See my workflow after the change</a></p>
+
+            <footer class="post-footer">
+              <ul class="tags"><li><a class="tag" href="/blog/?tag=GitHub%20Actions">GitHub Actions</a></li></ul>
+              <div class="card post-cta">
+                <h3>Need a hand with this in your environment?</h3>
+                <p>I help teams automate database changes, run cloud databases as code, and get migrations done. Tell me what you're working on.</p>
+                <a class="btn btn-primary" href="/services/">See how I can help</a>
+              </div>
+              <nav class="post-nav" aria-label="More posts">
+                <a class="prev" href="/posts/github-action-resource-not-assessiable/"><small>Older</small>GitHub Actions Resource Not Accessible By Integration</a>
+                <a class="next" href="/posts/liquibase-checksum-error/"><small>Newer</small>Liquibase Checksum Error</a>
+              </nav>
+            </footer>
+          </div>
+          <aside class="toc" aria-label="On this page">
+            <h2>On this page</h2>
+            <ol>
+              <li><a href="#issue">Issue</a></li>
+              <li><a href="#cause">Cause</a></li>
+              <li><a href="#solution">Solution</a></li>
+            </ol>
+          </aside>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span data-year>2026</span> Richard Koranteng. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="/services/">Services</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="https://www.linkedin.com/in/richard-koranteng" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/RKKoranteng" rel="noopener">GitHub</a></li>
+        <li><a href="/copyright/">Copyright</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>

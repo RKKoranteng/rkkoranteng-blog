@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Liquibase Checksum Error | Richard Koranteng</title>
+  <meta name="description" content="Liquibase Checksum Error">
+  <link rel="canonical" href="https://rkkoranteng.com/posts/liquibase-checksum-error/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Liquibase Checksum Error">
+  <meta property="og:description" content="Liquibase Checksum Error">
+  <meta property="og:url" content="https://rkkoranteng.com/posts/liquibase-checksum-error/">
+  <meta property="og:image" content="https://rkkoranteng.com/assets/screenshots/2025-03-09-liquibase-checksum-error/liquibase-checksum-error.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicons/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/img/favicons/apple-touch-icon.png">
+  <meta name="theme-color" content="#0d6b68">
+  <link rel="alternate" type="application/atom+xml" title="Richard Koranteng" href="/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script>(function(){var r=document.documentElement;r.classList.add('js');try{var t=localStorage.getItem('theme');if(t)r.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <script src="/assets/js/main.js" defer></script>
+  <meta property="article:published_time" content="2025-03-09">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <img src="/assets/img/richard-koranteng.jpg" alt="" width="34" height="34">
+        <span>Richard Koranteng<small>Database Engineering</small></span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/blog/" aria-current="page">Blog</a></li>
+          <li><a href="/speaking/">Speaking</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a class="btn btn-primary" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2BMW_ebBrDPEnl5n3oiZziXvGFj0LRBzxEQZTsjCmE_M-OWgymxc6LqCIRmCe96LgKfmeK87OT" target="_blank" rel="noopener">Book a call</a></li>
+        </ul>
+      </nav>
+      <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button class="icon-btn nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <article>
+      <div class="container">
+        <header class="post-header prose-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/blog/">&larr; All posts</a></nav>
+          <h1>Liquibase Checksum Error</h1>
+          
+          <div class="meta">
+            <time datetime="2025-03-09">Mar 9, 2025</time>
+            <span>2 min read</span>
+          </div>
+        </header>
+        <figure class="post-cover prose-width"><img src="/assets/screenshots/2025-03-09-liquibase-checksum-error/liquibase-checksum-error.png" alt="Liquibase validation failed with checksum error"></figure>
+        <div class="post-layout">
+          <div class="prose">
+<h2 id="overview">Overview</h2>
+<p>I&#39;ve been hitting this Liquibase checksum validation error more frequently in a specific database. Here&#39;s what I found out. Liquibase checksum validation errors occur when Liquibase detects that a previously applied changeset has been modified. Liquibase calculates a checksum (a hash) for each changeset and stores it in the DATABASECHANGELOG table. </p>
+<p>When running <code>liquibase update</code>, it recalculates the checksum and compares it to the stored value. If they don’t match, Liquibase throws a checksum validation error to prevent accidental or unintended changes. </p>
+<p>Here&#39;s a snippet of the error.</p>
+<div class="code-block"><span class="lang">text</span><pre><code>####################################################
+##   _     _             _ _                      ##
+##  | |   (_)           (_) |                     ##
+##  | |    _  __ _ _   _ _| |__   __ _ ___  ___   ##
+##  | |   | |/ _` | | | | | '_ \ / _` / __|/ _ \  ##
+##  | |___| | (_| | |_| | | |_) | (_| \__ \  __/  ##
+##  \_____/_|\__, |\__,_|_|_.__/ \__,_|___/\___|  ##
+##              | |                               ##
+##              |_|                               ##
+##                                                ## 
+##  Get documentation at docs.liquibase.com       ##
+##  Get certified courses at learn.liquibase.com  ## 
+##  Free schema change activity reports at        ##
+##      https://hub.liquibase.com                 ##
+##                                                ##
+####################################################
+Starting Liquibase at 09:19:22 (version 4.6.2 #886 built at 2021-11-30 16:20+0000)
+Liquibase Version: 4.6.2
+Liquibase Community 4.6.2 by Liquibase
+[2025-03-06 09:19:32] SEVERE [liquibase.integration] Validation Failed:
+     1 change sets check sum
+          dbchangelog.xml::stproc_modern_db_proj::Richard Koranteng was: 8:70816a61e1809ebe7c21e8f211a40726 but is now: 8:9328211bd7605a32a936bfe949554e5f
+
+liquibase.exception.CommandExecutionException: liquibase.exception.LiquibaseException: Unexpected error running Liquibase: Validation Failed:
+     1 change sets check sum
+          dbchangelog.xml::stproc_modern_db_proj::Richard Koranteng was: 8:70816a61e1809ebe7c21e8f211a40726 but is now: 8:9328211bd7605a32a936bfe949554e5f
+</code></pre></div>
+<h2 id="common-causes-of-checksum-validation-error">Common Causes of Checksum Validation Error</h2>
+<ul>
+<li><strong>Manual Changes to the Changeset</strong> : If you modify an already executed changeset (e.g., adding/removing columns, changing SQL statements), the checksum changes.</li>
+<li><strong>Changes in Formatting or Whitespace</strong> : Some formatting changes, even if they don’t affect SQL execution, can alter the checksum.</li>
+<li><strong>Environment Differences</strong> : Differences in line endings (Windows vs. Linux) or character encodings can sometimes lead to checksum mismatches.</li>
+<li><strong>Upgrading Liquibase Versions</strong> : Some versions of Liquibase may generate different checksums for the same changeset due to internal updates.</li>
+</ul>
+<h2 id="solution">Solution</h2>
+<p>I cleared the checksum by running the following command, but I hit the error again after a few weeks.</p>
+<div class="code-block"><span class="lang">sh</span><pre><code>liquibase --url=jdbc:sqlserver://testsrv:1433;databaseName=testdb;encrypt=<span class="hljs-literal">true</span>;trustServerCertificate=<span class="hljs-literal">true</span>; --username=oopss --password=<span class="hljs-string">&#x27;cant.touch.this&#x27;</span> clear-checksums</code></pre></div>
+<p>I eventually ended up manually updating the <code>DATABASECHANGELOG</code> table. I&#39;m confident about the change so I was ok with updating the checksum in the DATABASECHANGELOG table. </p>
+<p>Also, you can try manually updating the <code>DATABASECHANGELOG</code> table. </p>
+<p>Example</p>
+<div class="code-block"><span class="lang">sql</span><pre><code><span class="hljs-keyword">UPDATE</span> DATABASECHANGELOG 
+<span class="hljs-keyword">SET</span> MD5SUM <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;new-checksum&#x27;</span> 
+<span class="hljs-keyword">WHERE</span> ID <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;your_changeset_id&#x27;</span> <span class="hljs-keyword">AND</span> AUTHOR <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;your_author&#x27;</span>;</code></pre></div>
+
+            <footer class="post-footer">
+              <ul class="tags"><li><a class="tag" href="/blog/?tag=Liquibase">Liquibase</a></li></ul>
+              <div class="card post-cta">
+                <h3>Need a hand with this in your environment?</h3>
+                <p>I help teams automate database changes, run cloud databases as code, and get migrations done. Tell me what you're working on.</p>
+                <a class="btn btn-primary" href="/services/">See how I can help</a>
+              </div>
+              <nav class="post-nav" aria-label="More posts">
+                <a class="prev" href="/posts/actions-build-error-at-setup-rep/"><small>Older</small>Build Error at Setup Ruby Atage of Build and Deploy on Actions</a>
+                <a class="next" href="/posts/database-ci-cd-pipeline/"><small>Newer</small>Self-service CI/CD pipeline for database deployments with Liquibase &amp; Azure DevOps</a>
+              </nav>
+            </footer>
+          </div>
+          <aside class="toc" aria-label="On this page">
+            <h2>On this page</h2>
+            <ol>
+              <li><a href="#overview">Overview</a></li>
+              <li><a href="#common-causes-of-checksum-validation-error">Common Causes of Checksum Validation Error</a></li>
+              <li><a href="#solution">Solution</a></li>
+            </ol>
+          </aside>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span data-year>2026</span> Richard Koranteng. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="/services/">Services</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="https://www.linkedin.com/in/richard-koranteng" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/RKKoranteng" rel="noopener">GitHub</a></li>
+        <li><a href="/copyright/">Copyright</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,21 +1,29 @@
 # rkkoranteng.com
 
-## Overview
+Source for [rkkoranteng.com](https://rkkoranteng.com): database engineering consulting
+(advisory, consulting, coaching, fractional) and a blog on database automation, DevOps, and cloud.
 
-A DBA Blog - Blogging about modern DBA practices, tips, scripts, and my continuous improvement Database Engineering journey. 
+## How the site works
 
-[**rkkoranteng.com**](https://rkkoranteng.com)
+Plain HTML, CSS, and JavaScript, with no build step. Every push to `main` publishes the repo
+root to GitHub Pages via [`pages.yml`](.github/workflows/pages.yml).
 
-## Changelog
+* `assets/css/style.css`: all styles (light and dark themes)
+* `assets/js/main.js`: theme toggle, mobile menu, copy buttons, blog filter, table of contents
+* `posts/<slug>/index.html`: one folder per post, with images in `assets/screenshots/<post>/`
 
-All notable changes to this project will be documented in the [CHANGELOG](CHANGELOG.md)
+Preview locally with any static server, e.g. `python -m http.server 8080`.
 
-This project adheres to [Calendar Versioning](https://calver.org/).
+## Adding a post
 
-## Theme Source
+1. Copy a folder in `posts/` to `posts/<new-slug>/` and edit its `index.html`.
+2. Add it to `blog/index.html` and, if it's among the latest three, to `index.html`.
+3. Add an `<entry>` to `feed.xml` and a `<url>` to `sitemap.xml`.
+4. Update the Older/Newer links on the neighboring post.
 
-Chirpy:
+## Changelog and license
 
-* [GitHub repo](https://github.com/cotes2020/jekyll-theme-chirpy)
-* [Example and tips/best practices](https://chirpy.cotes.page/)
-* [Upgrading](#upgrading-the-theme) (using `git cherry-pick` to pull changes from upstream)
+Notable changes are in [CHANGELOG](CHANGELOG.md). Add entries under `## [Unreleased]`; when they
+reach `main`, [`changelog.yml`](.github/workflows/changelog.yml) moves them to a release dated that day.
+
+Content is © Richard Koranteng, all rights reserved, and code is MIT licensed. See [LICENSE](LICENSE).

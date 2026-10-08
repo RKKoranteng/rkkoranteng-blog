@@ -1,24 +1,43 @@
-# CHANGELOG
+# Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project are documented here.
 
-This project adheres to [Calendar Versioning](https://calver.org/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project uses [Calendar Versioning](https://calver.org/) (YYYY.MM.DD).
 
-## Meaning
+## [Unreleased]
 
-* add: added new feature/functionality
-* chg: changed existing feature/functionality
-* del: deleted feature/functionality
-* fix: fixed bugs/incorrect behavior corrected
+### Added
+- Consulting-focused home page and services page (advisory, consulting, coaching, fractional)
+- Copyright and disclaimer page, privacy policy page
+- RK monogram favicon, light/dark theme toggle, blog topic filter
+- Workflow that dates Unreleased changelog entries automatically on merge to main
 
-## To-do List
-- add badges (workflow status, blog post, most recent post)
+### Changed
+- Rebuilt the site as plain HTML/CSS/JS with no build step; posts keep their `/posts/<slug>/` URLs
+- Deploy workflow publishes the repo root to GitHub Pages
+- Split license: content all rights reserved, code MIT
+- RSS link moved from the footer to the blog page
+- README trimmed and updated for the static site
+- Changelog converted to the Keep a Changelog format
 
-## Released 
+### Removed
+- Jekyll and Chirpy theme source, gem/npm files, and unused theme assets
 
-- 2026.08.01 : fix - github pages redirect to rkkoranteng.com
-- 2026.08.01 : chg - simplify CHANGELOG cadence
-- 2026.08.01 : chg - updated README with relevant details about blog site and supporting them (inspiration from JoshOps)
-- 2026.08.01 : chg - CNAME to point page to rkkoranteng.com
-- 2026.07.29 : add - changelog to document notable changes to the repository
-- 2026.07.29 : chg - category and tag taxonomy to streamline post metadata management
+## [2026.08.01]
+
+### Changed
+- Simplified changelog cadence
+- README updated with details about the site (inspired by JoshOps)
+- CNAME points the site to rkkoranteng.com
+
+### Fixed
+- GitHub Pages redirect to rkkoranteng.com
+
+## [2026.07.29]
+
+### Added
+- Changelog to document notable changes to the repository
+
+### Changed
+- Category and tag taxonomy to streamline post metadata management
