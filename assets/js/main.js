@@ -18,6 +18,11 @@
     });
   });
 
+  // ---------- Footer year ----------
+  document.querySelectorAll('[data-year]').forEach(function (el) {
+    el.textContent = new Date().getFullYear();
+  });
+
   // ---------- Mobile nav ----------
   var header = document.querySelector('.site-header');
   var navToggle = document.querySelector('.nav-toggle');
