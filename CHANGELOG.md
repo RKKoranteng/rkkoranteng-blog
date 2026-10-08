@@ -7,6 +7,8 @@ and this project uses [Calendar Versioning](https://calver.org/) (YYYY.MM.DD).
 
 ## [Unreleased]
 
+## [2026.10.08]
+
 ### Added
 - Consulting-focused home page and services page (advisory, consulting, coaching, fractional)
 - Copyright and disclaimer page, privacy policy page
