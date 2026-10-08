@@ -1,35 +1,27 @@
 # rkkoranteng.com
 
-## Overview
-
-A DBA Blog - Blogging about modern DBA practices, tips, scripts, and my continuous improvement Database Engineering journey. 
-
-[**rkkoranteng.com**](https://rkkoranteng.com)
-
-## Changelog
-
-All notable changes to this project will be documented in the [CHANGELOG](CHANGELOG.md)
-
-This project adheres to [Calendar Versioning](https://calver.org/).
+Source for [rkkoranteng.com](https://rkkoranteng.com): database engineering consulting
+(advisory, consulting, coaching, fractional) and a blog on database automation, DevOps, and cloud.
 
 ## How the site works
 
-Plain HTML, CSS, and JavaScript. No build step. Every push to `main` publishes the repo root to GitHub Pages via [`.github/workflows/pages.yml`](.github/workflows/pages.yml).
+Plain HTML, CSS, and JavaScript, with no build step. Every push to `main` publishes the repo
+root to GitHub Pages via [`pages.yml`](.github/workflows/pages.yml).
 
-* `assets/css/style.css` - all styles (light and dark themes)
-* `assets/js/main.js` - theme toggle, mobile menu, code copy buttons, blog filter, table of contents
-* `posts/<slug>/index.html` - one folder per post
-* `assets/screenshots/<post>/` - post images
+* `assets/css/style.css`: all styles (light and dark themes)
+* `assets/js/main.js`: theme toggle, mobile menu, copy buttons, blog filter, table of contents
+* `posts/<slug>/index.html`: one folder per post, with images in `assets/screenshots/<post>/`
 
-Preview locally from the repo root with any static server, e.g. `python -m http.server 8080` or `npx serve`.
+Preview locally with any static server, e.g. `python -m http.server 8080`.
 
 ## Adding a post
 
-1. Copy an existing folder in `posts/` to `posts/<new-slug>/` and edit its `index.html` (title, description, canonical URL, date, content).
-2. Add the post to `blog/index.html` and, if it's one of the latest three, to the "Recent writing" list in `index.html`.
+1. Copy a folder in `posts/` to `posts/<new-slug>/` and edit its `index.html`.
+2. Add it to `blog/index.html` and, if it's among the latest three, to `index.html`.
 3. Add an `<entry>` to `feed.xml` and a `<url>` to `sitemap.xml`.
-4. Update the Older/Newer links at the bottom of the neighboring post.
+4. Update the Older/Newer links on the neighboring post.
 
-## License
+## Changelog and license
 
-Site content (writing, images, branding) is © Richard Koranteng, all rights reserved. Code (CSS, JS, workflows, and code samples in posts) is MIT licensed. See [LICENSE](LICENSE).
+Notable changes are in [CHANGELOG](CHANGELOG.md). Content is © Richard Koranteng, all rights
+reserved, and code is MIT licensed. See [LICENSE](LICENSE).
