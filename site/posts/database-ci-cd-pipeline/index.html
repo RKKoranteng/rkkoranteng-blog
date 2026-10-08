@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Self-service CI/CD pipeline for database deployments with Liquibase &amp; Azure DevOps | Richard Koranteng</title>
+  <meta name="description" content="Self-service CI/CD pipeline for Oracle database deployments with Liquibase &amp; Azure DevOps">
+  <link rel="canonical" href="https://rkkoranteng.com/posts/database-ci-cd-pipeline/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Self-service CI/CD pipeline for database deployments with Liquibase &amp; Azure DevOps">
+  <meta property="og:description" content="Self-service CI/CD pipeline for Oracle database deployments with Liquibase &amp; Azure DevOps">
+  <meta property="og:url" content="https://rkkoranteng.com/posts/database-ci-cd-pipeline/">
+  <meta property="og:image" content="https://rkkoranteng.com/assets/screenshots/2025-06-24-database-ci-cd-pipeline/ado-liquibase-pipeline.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicons/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/img/favicons/apple-touch-icon.png">
+  <meta name="theme-color" content="#0d6b68">
+  <link rel="alternate" type="application/atom+xml" title="Richard Koranteng" href="/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script>(function(){var r=document.documentElement;r.classList.add('js');try{var t=localStorage.getItem('theme');if(t)r.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <script src="/assets/js/main.js" defer></script>
+  <meta property="article:published_time" content="2025-06-24">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <img src="/assets/img/richard-koranteng.jpg" alt="" width="34" height="34">
+        <span>Richard Koranteng<small>Database Engineering</small></span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/blog/" aria-current="page">Blog</a></li>
+          <li><a href="/speaking/">Speaking</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a class="btn btn-primary" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2BMW_ebBrDPEnl5n3oiZziXvGFj0LRBzxEQZTsjCmE_M-OWgymxc6LqCIRmCe96LgKfmeK87OT" target="_blank" rel="noopener">Book a call</a></li>
+        </ul>
+      </nav>
+      <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button class="icon-btn nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <article>
+      <div class="container">
+        <header class="post-header prose-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/blog/">&larr; All posts</a></nav>
+          <h1>Self-service CI/CD pipeline for database deployments with Liquibase &amp; Azure DevOps</h1>
+          <p class="lead">Self-service CI/CD pipeline for Oracle database deployments with Liquibase &amp; Azure DevOps</p>
+          <div class="meta">
+            <time datetime="2025-06-24">Jun 24, 2025</time>
+            <span>2 min read</span>
+          </div>
+        </header>
+        <figure class="post-cover prose-width"><img src="/assets/screenshots/2025-06-24-database-ci-cd-pipeline/ado-liquibase-pipeline.png" alt="Azure DevOps Continous Deployment pipeline for database releases"></figure>
+        <div class="post-layout">
+          <div class="prose">
+<h2 id="problem">Problem</h2>
+<p>I recently worked with a customer who struggled to promote database changes to production quickly and safely. Their changes often remained locked in manual processes, isolated from modern CI/CD practices.</p>
+<h2 id="impact">Impact</h2>
+<p>This gap caused to:</p>
+<ul>
+<li>Delays in delivering new features</li>
+<li>Increased risk of human error in production deployments</li>
+<li>A disconnect between dev and ops teams</li>
+</ul>
+<h2 id="solution">Solution</h2>
+<p>Here&#39;s a better way - something secure, automated, and developer-friendly. I developed an <a href="https://github.com/RKKoranteng/liquibase-project" target="_blank" rel="noopener">Azure DevOps CI/CD pipeline for database deployments</a> that:</p>
+<ul>
+<li>Validates database changes using Liquibase</li>
+<li>Automates deployments to Dev, Staging, and Production</li>
+<li>Enforces approval gates and rollback previews</li>
+<li>Promotes changes safely to production</li>
+<li>Requires no DBA intervention for routine changes</li>
+</ul>
+<p>Continous Integration pipeline</p>
+<div class="code-block"><span class="lang">text</span><pre><code>📦 CI Pipeline (validate code and package)
+│
+├── Validate Changelog
+├── Show Pending Changes
+├── Generate SQL Preview
+├── Generate Rollback SQL
+├── Deploy to Dev
+├── Tag Database
+├── Geberate Build Metadat
+├── Build Artifacts
+└── Publish Artifact:
+    ├── changelog.xml
+    ├── /scripts/*.sql
+    ├── update-preview.sql
+    ├── rollback-preview.sql
+    ├── version.txt
+    └── liquibase.properties (optional)</code></pre></div>
+<p>Continuos Deploymeny pipeline</p>
+<div class="code-block"><span class="lang">text</span><pre><code>🚀 CD Pipeline (test code ande promote to prod)
+│
+├── Triggered by CI
+├── Downloads CI artifact
+├── Deploys to staging/prod using changelog
+└── References version/tag for auditing</code></pre></div>
+<aside class="callout callout-info"><span class="callout-label">Note</span><p>While continuous deployment (CD) offers significant advantages; speed, automation, and reduced manual effort - it may not be the ideal approach for all environments or organizations, especially when it comes to database deployments. ⚠️</p>
+</aside>
+<h2 id="outcome">Outcome</h2>
+<p>Implementing this solution allows:</p>
+<ul>
+<li>Developers to commit database changes and see them deployed to Dev within minutes</li>
+<li>Promotion to Production is fully automated but gated for approvals</li>
+<li>Dev and Ops teams have visibility and traceability of every change</li>
+<li>DBAs are no longer bottlenecks - we&#39;re enablers of innovation</li>
+<li>The business can respond faster to customer needs and market changes</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<p>By automating database deployments through a self-service CI/CD pipeline, developers are empowered to safely deliver changes without waiting on manual DBA intervention. This accelerates release cycles, reduces downtime, and improves team productivity. leading to faster time-to-market.</p>
+<aside class="callout callout-tip"><span class="callout-label">Tip</span><p>Faster time-to-market directly aligns with a stronger return on investment (ROI) for every development effort</p>
+</aside>
+
+            <footer class="post-footer">
+              <ul class="tags"><li><a class="tag" href="/blog/?tag=Liquibase">Liquibase</a></li><li><a class="tag" href="/blog/?tag=Azure%20DevOps">Azure DevOps</a></li></ul>
+              <div class="card post-cta">
+                <h3>Need a hand with this in your environment?</h3>
+                <p>I help teams automate database changes, run cloud databases as code, and get migrations done. Tell me what you're working on.</p>
+                <a class="btn btn-primary" href="/services/">See how I can help</a>
+              </div>
+              <nav class="post-nav" aria-label="More posts">
+                <a class="prev" href="/posts/liquibase-checksum-error/"><small>Older</small>Liquibase Checksum Error</a>
+                <a class="next" href="/posts/vagrant-up-throws-undefined-method-error/"><small>Newer</small>Vagrant Up Throws Undefined Method Error</a>
+              </nav>
+            </footer>
+          </div>
+          <aside class="toc" aria-label="On this page">
+            <h2>On this page</h2>
+            <ol>
+              <li><a href="#problem">Problem</a></li>
+              <li><a href="#impact">Impact</a></li>
+              <li><a href="#solution">Solution</a></li>
+              <li><a href="#outcome">Outcome</a></li>
+              <li><a href="#summary">Summary</a></li>
+            </ol>
+          </aside>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 Richard Koranteng. Database engineering consulting.</p>
+      <ul class="footer-links">
+        <li><a href="/services/">Services</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="https://www.linkedin.com/in/richard-koranteng" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/RKKoranteng" rel="noopener">GitHub</a></li>
+        <li><a href="/feed.xml">RSS</a></li>
+        <li><a href="mailto:richard@rkkoranteng.com">richard@rkkoranteng.com</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>

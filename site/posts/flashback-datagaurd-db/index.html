@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How-to: Flashback Data Gaurd Database | Richard Koranteng</title>
+  <meta name="description" content="Flashback a Data Gaurd database">
+  <link rel="canonical" href="https://rkkoranteng.com/posts/flashback-datagaurd-db/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How-to: Flashback Data Gaurd Database">
+  <meta property="og:description" content="Flashback a Data Gaurd database">
+  <meta property="og:url" content="https://rkkoranteng.com/posts/flashback-datagaurd-db/">
+  <meta property="og:image" content="https://rkkoranteng.com/assets/screenshots/2019-06-10-flashback-datagaurd-db/2019-06-10-flashback-datagaurd-db.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicons/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/img/favicons/apple-touch-icon.png">
+  <meta name="theme-color" content="#0d6b68">
+  <link rel="alternate" type="application/atom+xml" title="Richard Koranteng" href="/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script>(function(){var r=document.documentElement;r.classList.add('js');try{var t=localStorage.getItem('theme');if(t)r.setAttribute('data-theme',t);}catch(e){}})();</script>
+  <script src="/assets/js/main.js" defer></script>
+  <meta property="article:published_time" content="2019-06-10">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <img src="/assets/img/richard-koranteng.jpg" alt="" width="34" height="34">
+        <span>Richard Koranteng<small>Database Engineering</small></span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/blog/" aria-current="page">Blog</a></li>
+          <li><a href="/speaking/">Speaking</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a class="btn btn-primary" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2BMW_ebBrDPEnl5n3oiZziXvGFj0LRBzxEQZTsjCmE_M-OWgymxc6LqCIRmCe96LgKfmeK87OT" target="_blank" rel="noopener">Book a call</a></li>
+        </ul>
+      </nav>
+      <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+      <button class="icon-btn nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <article>
+      <div class="container">
+        <header class="post-header prose-width">
+          <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/blog/">&larr; All posts</a></nav>
+          <h1>How-to: Flashback Data Gaurd Database</h1>
+          <p class="lead">Flashback a Data Gaurd database</p>
+          <div class="meta">
+            <time datetime="2019-06-10">Jun 10, 2019</time>
+            <span>3 min read</span>
+          </div>
+        </header>
+        <figure class="post-cover prose-width"><img src="/assets/screenshots/2019-06-10-flashback-datagaurd-db/2019-06-10-flashback-datagaurd-db.png" alt="oracle data guard architecture"></figure>
+        <div class="post-layout">
+          <div class="prose">
+<p>Logical mistake, end of testing cycle, need to rollback database to a previous state? RMAN restore can help, however there’s an easier way: we can address these scenarios with the Flashback technique. In the case of a standalone Oracle database, there is nothing special to take into account when performing flashback. However, performing flashback of a Data Guard environment needs special treatment of the Standby Database to ensure data consistency. This article will show you how to do that</p>
+<aside class="callout callout-info"><span class="callout-label">Note</span><ul>
+<li>Note: I&#39;m using <a href="https://docs.oracle.com/en/database/oracle/oracle-database/19/dgbkr/oracle-data-guard-broker-concepts.html#GUID-723E5B73-A350-4B2E-AF3C-5EA4EFC83966"><code class="filepath">dgbroker</code></a> for certain tasks.</li>
+<li>Inorder for the series of steps below to work, you should’ve already created a RESTORE POINT which you can flashback to.</li>
+</ul>
+</aside>
+<h2 id="pre-flashback-task">Pre-Flashback Task</h2>
+<p>Connect to dgbroker to check Data Guard manager state. Expected output should show that the <code>Configuration Status is “SUCCESS”</code></p>
+<div class="code-block"><span class="lang">bash</span><pre><code>dgmgrl /
+
+DGMGRL&gt; show configuration;
+
+Configuration - dev100_config
+
+ Protection Mode: MaxAvailability
+ Members:
+ dev100p - Primary database
+ dev100s - Physical standby database
+
+Fast-Start Failover: DISABLED
+
+Configuration Status:
+SUCCESS (status updated 48 seconds ago)</code></pre></div>
+<p>Connect to SQLPlus as SYS, then perform a few log switches to ensure primary and standby are in sycn</p>
+<div class="code-block"><span class="lang">sql</span><pre><code><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">SYSTEM</span> switch logfile;
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">SYSTEM</span> switch logfile;
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">SYSTEM</span> switch logfile;</code></pre></div>
+<p>Run the following sql statement on all standby database(s) and check the last “Difference” column. It expected output is a return of 0, signifying that standby is in sync with primary. If the difference is 1 or 2, you may just have to wait a few minutes for the standby db to catch up.</p>
+<div class="code-block"><span class="lang">sql</span><pre><code><span class="hljs-keyword">SELECT</span> ARCH.THREAD# &quot;Thread&quot;, ARCH.SEQUENCE# &quot;Last Sequence Received&quot;, APPL.SEQUENCE# &quot;Last Sequence Applied&quot;, (ARCH.SEQUENCE# <span class="hljs-operator">-</span> APPL.SEQUENCE#) &quot;Difference&quot; <span class="hljs-keyword">FROM</span> (<span class="hljs-keyword">SELECT</span> THREAD# ,SEQUENCE# <span class="hljs-keyword">FROM</span> V$ARCHIVED_LOG <span class="hljs-keyword">WHERE</span> (THREAD#,FIRST_TIME ) <span class="hljs-keyword">IN</span> (<span class="hljs-keyword">SELECT</span> THREAD#,<span class="hljs-built_in">MAX</span>(FIRST_TIME) <span class="hljs-keyword">FROM</span> V$ARCHIVED_LOG <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> THREAD#)) ARCH,(<span class="hljs-keyword">SELECT</span> THREAD# ,SEQUENCE# <span class="hljs-keyword">FROM</span> V$LOG_HISTORY <span class="hljs-keyword">WHERE</span> (THREAD#,FIRST_TIME ) <span class="hljs-keyword">IN</span> (<span class="hljs-keyword">SELECT</span> THREAD#,<span class="hljs-built_in">MAX</span>(FIRST_TIME) <span class="hljs-keyword">FROM</span> V$LOG_HISTORY <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> THREAD#)) APPL <span class="hljs-keyword">WHERE</span> ARCH.THREAD# <span class="hljs-operator">=</span> APPL.THREAD# <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-number">1</span>;</code></pre></div>
+<h2 id="stop-mrp">Stop MRP</h2>
+<p>Once all the standbys are in sync with primary database, stop the mrp process on all the standbys through dgbroker. This is done by connecting to the broker of PRIMARY database server(s) and running the following command.</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>dgmgrl /
+
+DGMGRL&gt; EDIT DATABASE <span class="hljs-string">&#x27;dev100s&#x27;</span> SET STATE=<span class="hljs-string">&#x27;APPLY-OFF&#x27;</span>;</code></pre></div>
+<h2 id="flashback-database">Flashback Database</h2>
+<p>Flashback can be done in all the databases at the same time. First bounce the database and put it in mount mode. In the example below, I’m flashing back to a RESTORE POINT named <code>BeforeDeploymnent</code>.</p>
+<aside class="callout callout-info"><span class="callout-label">Note</span><p>Connect to both primary and standby databases as SYS to perform this </p>
+</aside>
+<div class="code-block"><span class="lang">sql</span><pre><code>shu immediate
+startup mount;
+flashback DATABASE <span class="hljs-keyword">TO</span> restore point BeforeDeploymnent;</code></pre></div>
+<h2 id="open-resetlogs-database-on-primary">Open Resetlogs Database (On Primary)</h2>
+<p>Once flashback is done in all the databases, proceed with opening the primary database first before starting starting the mrp on all the standby’s.</p>
+<div class="code-block"><span class="lang">sql</span><pre><code><span class="hljs-keyword">ALTER</span> DATABASE <span class="hljs-keyword">OPEN</span> resetlogs;</code></pre></div>
+<h2 id="open-read-only-database-on-standby">Open Read Only Database (On Standby)</h2>
+<p>Wait for primary database(s) to complete flashback and open resetlogs before proceeding with opening the standby.</p>
+<div class="code-block"><span class="lang">sql</span><pre><code><span class="hljs-keyword">ALTER</span> DATABASE <span class="hljs-keyword">OPEN</span> READ <span class="hljs-keyword">ONLY</span>;</code></pre></div>
+<aside class="callout callout-info"><span class="callout-label">Note</span><p>Confirm that the standby is in active data guard mode (READ ONLY WITH APPLY)</p>
+</aside>
+<h2 id="start-mrp">Start MRP</h2>
+<p>Start the mrp on all standbys using dg broker. This is done by connecting to the broker of PRIMARY database server(s) and running the following command.</p>
+<div class="code-block"><span class="lang">bash</span><pre><code>dgmgrl /
+
+DGMGRL&gt; EDIT DATABASE <span class="hljs-string">&#x27;dev100s&#x27;</span> SET STATE=<span class="hljs-string">&#x27;APPLY-ON&#x27;</span>;</code></pre></div>
+<h2 id="post-flashback-tasks">Post-Flashback Tasks</h2>
+<p>Connect as SYS on the primary database(s), perform a few log switches</p>
+<div class="code-block"><span class="lang">sql</span><pre><code><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">SYSTEM</span> switch logfile;
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">SYSTEM</span> switch logfile;
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">SYSTEM</span> switch logfile;</code></pre></div>
+<p>Run the following sql statement on all standby database(s) and check the last “Difference” column. It expected output is a return of 0, signifying that standby is in sync with primary. If the difference is 1 or 2, you may just have to wait a few minutes for the standby db to catch up.</p>
+<div class="code-block"><span class="lang">sql</span><pre><code><span class="hljs-keyword">SELECT</span> ARCH.THREAD# &quot;Thread&quot;, ARCH.SEQUENCE# &quot;Last Sequence Received&quot;, APPL.SEQUENCE# &quot;Last Sequence Applied&quot;, (ARCH.SEQUENCE# <span class="hljs-operator">-</span> APPL.SEQUENCE#) &quot;Difference&quot; <span class="hljs-keyword">FROM</span> (<span class="hljs-keyword">SELECT</span> THREAD# ,SEQUENCE# <span class="hljs-keyword">FROM</span> V$ARCHIVED_LOG <span class="hljs-keyword">WHERE</span> (THREAD#,FIRST_TIME ) <span class="hljs-keyword">IN</span> (<span class="hljs-keyword">SELECT</span> THREAD#,<span class="hljs-built_in">MAX</span>(FIRST_TIME) <span class="hljs-keyword">FROM</span> V$ARCHIVED_LOG <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> THREAD#)) ARCH,(<span class="hljs-keyword">SELECT</span> THREAD# ,SEQUENCE# <span class="hljs-keyword">FROM</span> V$LOG_HISTORY <span class="hljs-keyword">WHERE</span> (THREAD#,FIRST_TIME ) <span class="hljs-keyword">IN</span> (<span class="hljs-keyword">SELECT</span> THREAD#,<span class="hljs-built_in">MAX</span>(FIRST_TIME) <span class="hljs-keyword">FROM</span> V$LOG_HISTORY <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> THREAD#)) APPL <span class="hljs-keyword">WHERE</span> ARCH.THREAD# <span class="hljs-operator">=</span> APPL.THREAD# <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-number">1</span>;</code></pre></div>
+
+            <footer class="post-footer">
+              <ul class="tags"><li><a class="tag" href="/blog/?tag=Oracle">Oracle</a></li><li><a class="tag" href="/blog/?tag=Recovery">Recovery</a></li></ul>
+              <div class="card post-cta">
+                <h3>Need a hand with this in your environment?</h3>
+                <p>I help teams automate database changes, run cloud databases as code, and get migrations done. Tell me what you're working on.</p>
+                <a class="btn btn-primary" href="/services/">See how I can help</a>
+              </div>
+              <nav class="post-nav" aria-label="More posts">
+                <a class="prev" href="/posts/oem13c-installation-on-rhel6/"><small>Older</small>OEM 13c on RHEL6</a>
+                <a class="next" href="/posts/ansible-for-rds/"><small>Newer</small>Simple Ansible Playbook to Create RDS Instance</a>
+              </nav>
+            </footer>
+          </div>
+          <aside class="toc" aria-label="On this page">
+            <h2>On this page</h2>
+            <ol>
+              <li><a href="#pre-flashback-task">Pre-Flashback Task</a></li>
+              <li><a href="#stop-mrp">Stop MRP</a></li>
+              <li><a href="#flashback-database">Flashback Database</a></li>
+              <li><a href="#open-resetlogs-database-on-primary">Open Resetlogs Database (On Primary)</a></li>
+              <li><a href="#open-read-only-database-on-standby">Open Read Only Database (On Standby)</a></li>
+              <li><a href="#start-mrp">Start MRP</a></li>
+              <li><a href="#post-flashback-tasks">Post-Flashback Tasks</a></li>
+            </ol>
+          </aside>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 Richard Koranteng. Database engineering consulting.</p>
+      <ul class="footer-links">
+        <li><a href="/services/">Services</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="https://www.linkedin.com/in/richard-koranteng" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/RKKoranteng" rel="noopener">GitHub</a></li>
+        <li><a href="/feed.xml">RSS</a></li>
+        <li><a href="mailto:richard@rkkoranteng.com">richard@rkkoranteng.com</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>

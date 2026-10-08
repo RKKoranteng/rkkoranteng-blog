@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://rkkoranteng.com/</loc></url>
+  <url><loc>https://rkkoranteng.com/services/</loc></url>
+  <url><loc>https://rkkoranteng.com/blog/</loc></url>
+  <url><loc>https://rkkoranteng.com/speaking/</loc></url>
+  <url><loc>https://rkkoranteng.com/about/</loc></url>
+  <url><loc>https://rkkoranteng.com/posts/vagrant-up-throws-undefined-method-error/</loc><lastmod>2026-01-21</lastmod></url>
+  <url><loc>https://rkkoranteng.com/posts/database-ci-cd-pipeline/</loc><lastmod>2025-06-24</lastmod></url>
+  <url><loc>https://rkkoranteng.com/posts/liquibase-checksum-error/</loc><lastmod>2025-03-09</lastmod></url>
+  <url><loc>https://rkkoranteng.com/posts/actions-build-error-at-setup-rep/</loc><lastmod>2025-02-15</lastmod></url>
+  <url><loc>https://rkkoranteng.com/posts/github-action-resource-not-assessiable/</loc><lastmod>2024-02-22</lastmod></url>
+  <url><loc>https://rkkoranteng.com/posts/ansible-for-rds/</loc><lastmod>2021-09-27</lastmod></url>
+  <url><loc>https://rkkoranteng.com/posts/flashback-datagaurd-db/</loc><lastmod>2019-06-10</lastmod></url>
+  <url><loc>https://rkkoranteng.com/posts/oem13c-installation-on-rhel6/</loc><lastmod>2019-04-25</lastmod></url>
+  <url><loc>https://rkkoranteng.com/posts/disable-thp-rhel7/</loc><lastmod>2019-04-16</lastmod></url>
+  <url><loc>https://rkkoranteng.com/posts/oracle-rdbms-18c-silent-installation-on-rhel-7/</loc><lastmod>2019-03-24</lastmod></url>
+</urlset>
