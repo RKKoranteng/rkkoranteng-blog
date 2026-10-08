@@ -342,6 +342,13 @@ a.tag:hover { color: var(--accent); border-color: var(--accent); }
 .filter-bar button:hover { border-color: var(--accent); }
 .filter-bar button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 
+.subscribe-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: .92rem; font-weight: 600; text-decoration: none;
+}
+.subscribe-link svg { width: 16px; height: 16px; }
+.subscribe-link:hover { text-decoration: underline; }
+
 .year-heading { font-size: 1rem; color: var(--muted); margin: 32px 0 12px; }
 .year-heading:first-child { margin-top: 0; }
 
