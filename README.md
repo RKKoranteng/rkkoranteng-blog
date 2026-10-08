@@ -12,10 +12,20 @@ All notable changes to this project will be documented in the [CHANGELOG](CHANGE
 
 This project adheres to [Calendar Versioning](https://calver.org/).
 
-## Theme Source
+## How the site works
 
-Chirpy:
+Plain HTML, CSS, and JavaScript. No build step. Every push to `main` publishes the repo root to GitHub Pages via [`.github/workflows/pages.yml`](.github/workflows/pages.yml).
 
-* [GitHub repo](https://github.com/cotes2020/jekyll-theme-chirpy)
-* [Example and tips/best practices](https://chirpy.cotes.page/)
-* [Upgrading](#upgrading-the-theme) (using `git cherry-pick` to pull changes from upstream)
+* `assets/css/style.css` - all styles (light and dark themes)
+* `assets/js/main.js` - theme toggle, mobile menu, code copy buttons, blog filter, table of contents
+* `posts/<slug>/index.html` - one folder per post
+* `assets/screenshots/<post>/` - post images
+
+Preview locally from the repo root with any static server, e.g. `python -m http.server 8080` or `npx serve`.
+
+## Adding a post
+
+1. Copy an existing folder in `posts/` to `posts/<new-slug>/` and edit its `index.html` (title, description, canonical URL, date, content).
+2. Add the post to `blog/index.html` and, if it's one of the latest three, to the "Recent writing" list in `index.html`.
+3. Add an `<entry>` to `feed.xml` and a `<url>` to `sitemap.xml`.
+4. Update the Older/Newer links at the bottom of the neighboring post.
