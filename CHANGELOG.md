@@ -7,6 +7,9 @@ and this project uses [Calendar Versioning](https://calver.org/) (YYYY.MM.DD).
 
 ## [Unreleased]
 
+### Changed
+- Headshot on the home and about pages is hidden on mobile
+
 ## [2026.10.08]
 
 ### Added
