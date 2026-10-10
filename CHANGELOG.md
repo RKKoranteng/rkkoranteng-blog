@@ -7,6 +7,9 @@ and this project uses [Calendar Versioning](https://calver.org/) (YYYY.MM.DD).
 
 ## [Unreleased]
 
+### Changed
+- Replaced the cloud database migration offering with Agile transformation for database teams
+
 ## [2026.10.09]
 
 ### Changed
